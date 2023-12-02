@@ -1,8 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-#include "Character.h"
 #include "Game.h"
-#include "Camera.h"
 #include "Renderer.h"
 #include "Standard Values.h"
 
@@ -12,7 +10,6 @@ int main()
 {
 	sf::RenderWindow win(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Platformer");
 	sf::Clock deltaClock;
-	Camera camera;
 	Renderer ren(win);
 
 	Begin(win);
