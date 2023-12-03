@@ -2,10 +2,11 @@
 #include "Resources.h"
 #include "Map.h"
 #include "Character.h"
+#include "Physics.h"
 #include <filesystem>
 
-Map gameMap(16.0f);
-Camera camera(320.0f);
+Map gameMap(1.0f);
+Camera camera(20.0f);
 Character player;
 
 
@@ -19,14 +20,17 @@ void Begin(const sf::Window& win)
 		}
 	}
 
+	Physics::Init();
+
 	sf::Image image;
 	image.loadFromFile("Images/map.png");
 	player.position = gameMap.CreateFromImage(image);
-	
+	player.Begin();
 }
 
 void Update(float deltaTime)
 {
+	Physics::Update(deltaTime);
 	player.Update(deltaTime);
 	camera.position = player.position;
 }

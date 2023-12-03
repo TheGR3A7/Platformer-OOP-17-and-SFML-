@@ -8,5 +8,5 @@ private:
 	sf::RenderTarget& target;
 public:
 	Renderer(sf::RenderTarget& target);
-	void Draw(const sf::Texture& texture, const sf::Vector2f& position, const sf::Vector2f& size);
+	void Draw(const sf::Texture& texture, const sf::Vector2f& position, const sf::Vector2f& size, float angle = 0.0f);
 };

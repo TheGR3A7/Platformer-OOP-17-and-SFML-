@@ -12,6 +12,7 @@ int main()
 	sf::Clock deltaClock;
 	Renderer ren(win);
 
+	win.setFramerateLimit(60);
 	Begin(win);
 
 	while (win.isOpen())
