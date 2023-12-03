@@ -10,7 +10,7 @@ void Map::CreateChekerboard(size_t width, size_t height)
 {
 	grid = vector(width, vector(height, 1));
 
-	int last = 0;
+	bool last = 0;
 
 	for (auto& column : grid)
 	{
@@ -20,6 +20,22 @@ void Map::CreateChekerboard(size_t width, size_t height)
 		}
 		if (width % 2 == 0)
 			last = !last;
+	}
+}
+
+void Map::CreateFromImage(const sf::Image& image)
+{
+	grid.clear();
+	grid = vector(image.getSize().x, vector(image.getSize().y, 0));
+
+	for (size_t x = 0; x < grid.size(); x++)
+	{
+		for (size_t y = 0; y < grid[x].size(); y++) 
+		{
+			sf::Color color = image.getPixel(x, y);
+			if (color == sf::Color::Black)
+				grid[x][y] = 1;
+		}
 	}
 }
 
