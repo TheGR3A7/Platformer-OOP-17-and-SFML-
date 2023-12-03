@@ -13,7 +13,7 @@ public:
 
 	Map(float cellSize = 32.0f);
 	void CreateChekerboard(size_t width, size_t height);
-	void CreateFromImage(const sf::Image& image);
+	sf::Vector2f CreateFromImage(const sf::Image& image);
 	void Draw(Renderer& ren);
 };
 

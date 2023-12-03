@@ -23,10 +23,12 @@ void Map::CreateChekerboard(size_t width, size_t height)
 	}
 }
 
-void Map::CreateFromImage(const sf::Image& image)
+sf::Vector2f Map::CreateFromImage(const sf::Image& image)
 {
 	grid.clear();
 	grid = vector(image.getSize().x, vector(image.getSize().y, 0));
+
+	sf::Vector2f characterPosition;
 
 	for (size_t x = 0; x < grid.size(); x++)
 	{
@@ -35,8 +37,12 @@ void Map::CreateFromImage(const sf::Image& image)
 			sf::Color color = image.getPixel(x, y);
 			if (color == sf::Color::Black)
 				grid[x][y] = 1;
+			else if (color == sf::Color::Red)
+				characterPosition = sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
 		}
 	}
+
+	return characterPosition;
 }
 
 void Map::Draw(Renderer& ren)
