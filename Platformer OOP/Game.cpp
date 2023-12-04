@@ -39,4 +39,6 @@ void Render(Renderer& ren)
 {
 	gameMap.Draw(ren);
 	player.Draw(ren);
+
+	Physics::DebugDraw(ren);
 }

@@ -1,10 +1,12 @@
+#define _USE_MATH_DEFINES
 #include "Character.h"
 #include "Resources.h"
 #include "Physics.h"
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
+#include <cmath>
 
-constexpr float M_PI = 3.14; // более точно 22.0f / 7.0f
+
 const float movementSpeed = 3.0f;
 
 void Character::Begin()
@@ -32,14 +34,14 @@ void Character::Update(float deltaTime)
 	position = sf::Vector2f(body->GetPosition().x, body->GetPosition().y);
 	angle = body->GetAngle() * (180.0f / M_PI);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		position.x += move * deltaTime;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		position.x -= move * deltaTime;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		position.y -= move * deltaTime;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		position.y += move * deltaTime;
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	//	position.x += move * deltaTime;
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	//	position.x -= move * deltaTime;
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	//	position.y -= move * deltaTime;
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	//	position.y += move * deltaTime;
 }
 
 void Character::Draw(Renderer& ren)
