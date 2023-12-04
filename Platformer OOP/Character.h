@@ -2,12 +2,15 @@
 #include <SFML/Graphics.hpp>
 #include <box2d/b2_body.h>
 #include "Renderer.h"
+#include "Physics.h"
 
 
-class Character
+class Character : public ContactListener
 {
 private:
 	b2Body* body;
+	size_t isGrounded = 0; // bool плохо работал
+	bool dirLeft = false;
 public:
 	sf::Vector2f position;
 	float angle;
@@ -15,4 +18,8 @@ public:
 	void Begin();
 	void Update(float deltaTime);
 	void Draw(Renderer& ren);
+
+	// Унаследовано через ContactListener
+	virtual void OnBeginContact() override;
+	virtual void OnEndContact() override;
 };
