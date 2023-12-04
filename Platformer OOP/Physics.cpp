@@ -25,7 +25,7 @@ public:
 
 		shape.setFillColor(sf::Color::Transparent);
 		shape.setOutlineThickness(0.02f);
-		shape.setOutlineColor(sf::Color(color.r * 255, color.g * 255, color.b * 255, color.a * 255));
+		shape.setOutlineColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 255));
 		target.draw(shape);
 	}
 
@@ -36,7 +36,7 @@ public:
 		{
 			shape.setPoint(i, sf::Vector2f(vertices[i].x, vertices[i].y));
 		}
-		shape.setFillColor(sf::Color(color.r * 255, color.g * 255, color.b * 255, color.a * 255));
+		shape.setFillColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 255));
 		target.draw(shape);
 	}
 
@@ -44,10 +44,10 @@ public:
 	{
 		sf::CircleShape circle(radius);
 		circle.setPosition(center.x, center.y);
-		circle.setOrigin(radius / 2.0f, radius / 2.0f);
+		circle.setOrigin(radius, radius);
 		circle.setFillColor(sf::Color::Transparent);
 		circle.setOutlineThickness(0.02f);
-		circle.setOutlineColor(sf::Color(color.r * 255, color.g * 255, color.b * 255, color.a * 255));
+		circle.setOutlineColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 255));
 		target.draw(circle);
 	}
 
@@ -55,8 +55,8 @@ public:
 	{
 		sf::CircleShape circle(radius);
 		circle.setPosition(center.x, center.y);
-		circle.setOrigin(radius / 2.0f, radius / 2.0f);
-		circle.setFillColor(sf::Color(color.r * 255, color.g * 255, color.b * 255, color.a * 80)); // 80 -чтобы был более прозрачный
+		circle.setOrigin(radius, radius);
+		circle.setFillColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 120)); // 120 - чтобы был более прозрачный
 		target.draw(circle);
 
 		b2Vec2 p = center + (radius * axis);
@@ -66,7 +66,7 @@ public:
 	virtual void DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color) override
 	{
 		sf::VertexArray va(sf::Lines, 2);
-		sf::Color sfColor(color.r * 255, color.g * 255, color.b * 255, color.a * 255);
+		sf::Color sfColor((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 255);
 
 		va[0].position = sf::Vector2f(p1.x, p1.y);
 		va[0].color = sfColor;
@@ -91,8 +91,8 @@ public:
 	{
 		sf::CircleShape circle(size);
 		circle.setPosition(p.x, p.y);
-		circle.setOrigin(size / 2.0f, size / 2.0f);
-		circle.setFillColor(sf::Color(color.r * 255, color.g * 255, color.b * 255, color.a * 255));
+		circle.setOrigin(size, size);
+		circle.setFillColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 255));
 		target.draw(circle);
 	}
 
@@ -114,8 +114,8 @@ void Physics::DebugDraw(Renderer& ren)
 	{
 		debugDraw = new MyDebugDraw(ren.target);
 		//debugDraw->SetFlags(b2Draw::e_aabbBit); // рисуется граница объекта
-		//debugDraw->SetFlags(b2Draw::e_shapeBit); // рисуется фигруы объекта
-		debugDraw->SetFlags(b2Draw::e_centerOfMassBit); // рисуется цент масс объекта
+		debugDraw->SetFlags(b2Draw::e_shapeBit); // рисуется фигруы объекта
+		//debugDraw->SetFlags(b2Draw::e_centerOfMassBit); // рисуется цент масс объекта
 		world.SetDebugDraw(debugDraw);
 	}
 
