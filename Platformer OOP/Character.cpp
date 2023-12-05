@@ -12,6 +12,13 @@ const float jumpVelocity = 10.0f;
 
 void Character::Begin()
 {
+	runAnimation = Animation(0.45f,
+		{
+			AnimFrame(0.30f, Resources::textures["sand.png"]),
+			AnimFrame(0.15f, Resources::textures["brick.png"]),
+			AnimFrame(0.00f, Resources::textures["brick2.png"]),
+		});
+
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(position.x, position.y);
@@ -25,20 +32,20 @@ void Character::Begin()
 
 	b2CircleShape circleShape;
 	circleShape.m_radius = 0.5f;
-	circleShape.m_p.Set(0.0f, -0.5f);
+	circleShape.m_p.Set(0.0f, 0.0f);
 	fixtureDef.shape = &circleShape;
 	body->CreateFixture(&fixtureDef);
 
-	circleShape.m_p.Set(0.0f, 0.5f);
-	body->CreateFixture(&fixtureDef);
+	//circleShape.m_p.Set(0.0f, 0.25f);
+	//body->CreateFixture(&fixtureDef);
 
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.5f, 0.5f);
+	polygonShape.SetAsBox(0.5f, 0.25f);
 	fixtureDef.shape = &polygonShape;// фигура
 	body->CreateFixture(&fixtureDef);
 
-	polygonShape.SetAsBox(0.4f, 0.2f, b2Vec2(0.0f, 1.0f), 0.0f);
-	fixtureDef.userData.pointer = (uintptr_t)this;
+	polygonShape.SetAsBox(0.4f, 0.2f, b2Vec2(0.0f, 0.5f), 0.0f);
+	fixtureDef.userData.pointer = (uintptr_t)this; //приведение указателя к беззнаковому целочисленному типу для сохранения указателя на объект 
 	fixtureDef.isSensor = true;
 	body->CreateFixture(&fixtureDef);
 }
@@ -46,6 +53,8 @@ void Character::Begin()
 void Character::Update(float deltaTime)
 {
 	float move = movementSpeed;
+
+	runAnimation.Update(deltaTime);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 		move *= 2;
@@ -61,10 +70,18 @@ void Character::Update(float deltaTime)
 		velocity.y -= jumpVelocity;
 
 
+	textureToDraw = runAnimation.GetTexture();
+
 	if (velocity.x < 0.0f)
 		dirLeft = true;
 	else if (velocity.x > 0.0f) // else if потому что если == 0, то он не должен менять сторону, при просто else это не учтется
 		dirLeft = false;
+	else
+		textureToDraw = Resources::textures["hero.png"];
+
+
+	if (!isGrounded)
+		textureToDraw = Resources::textures["jump.png"];
 
 
 	body->SetLinearVelocity(velocity);
@@ -76,7 +93,7 @@ void Character::Update(float deltaTime)
 
 void Character::Draw(Renderer& ren)
 {
-	ren.Draw(Resources::textures["sand.png"], position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, 2.0f), angle); // типо Перс 2 метра ростом и 1 метр в ширину(мы теперь делем исходные данные на 16)
+	ren.Draw(textureToDraw, position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, 1.0f), angle); // типо Перс 1 метр ростом и 1 метр в ширину(мы теперь делем исходные данные на 16)
 }
 
 void Character::OnBeginContact()

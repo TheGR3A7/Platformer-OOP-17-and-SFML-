@@ -3,11 +3,15 @@
 #include <box2d/b2_body.h>
 #include "Renderer.h"
 #include "Physics.h"
+#include "Animation.h"
 
 
 class Character : public ContactListener
 {
 private:
+	Animation runAnimation;
+	sf::Texture textureToDraw;
+
 	b2Body* body;
 	size_t isGrounded = 0; // bool плохо работал
 	bool dirLeft = false;
