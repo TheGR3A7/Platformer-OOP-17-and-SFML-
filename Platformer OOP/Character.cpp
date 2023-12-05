@@ -77,12 +77,12 @@ void Character::Update(float deltaTime)
 	else if (velocity.x > 0.0f) // else if потому что если == 0, то он не должен менять сторону, при просто else это не учтется
 		dirLeft = false;
 	else
-		textureToDraw = Resources::textures["hero.png"];
+		textureToDraw = Resources::textures["idle.png"];
 
 
 	if (!isGrounded)
 		textureToDraw = Resources::textures["jump.png"];
-
+			
 
 	body->SetLinearVelocity(velocity);
 
