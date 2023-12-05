@@ -5,13 +5,17 @@ Camera::Camera(float zoomLevel)
 {
 }
 
+sf::Vector2f Camera::GetViewSize()
+{
+	return viewSize;
+}
+
 sf::View Camera::GetView(sf::Vector2u winSize)
 {
 	float dt = (float)winSize.x / (float)winSize.y;
-	sf::Vector2f size;
 	if (dt < 1.0f)
-		size = sf::Vector2f(zoomLevel, zoomLevel / dt);
+		viewSize = sf::Vector2f(zoomLevel, zoomLevel / dt);
 	else
-		size = sf::Vector2f(zoomLevel * dt, zoomLevel);
-	return sf::View(position, size);
+		viewSize = sf::Vector2f(zoomLevel * dt, zoomLevel);
+	return sf::View(position, viewSize);
 }

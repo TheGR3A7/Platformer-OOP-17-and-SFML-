@@ -12,12 +12,18 @@ const float jumpVelocity = 10.0f;
 
 void Character::Begin()
 {
-	runAnimation = Animation(0.45f,
+	runAnimation = Animation(0.72f,
 		{
-			AnimFrame(0.30f, Resources::textures["sand.png"]),
-			AnimFrame(0.15f, Resources::textures["brick.png"]),
-			AnimFrame(0.00f, Resources::textures["brick2.png"]),
+			AnimFrame(0.60f, Resources::textures["run6.png"]),
+			AnimFrame(0.48f, Resources::textures["run5.png"]),
+			AnimFrame(0.36f, Resources::textures["run4.png"]),
+			AnimFrame(0.24f, Resources::textures["run3.png"]),
+			AnimFrame(0.12f, Resources::textures["run2.png"]),
+			AnimFrame(0.00f, Resources::textures["run1.png"]),
 		});
+
+	jumpSound.setBuffer(Resources::sounds["jump.wav"]);
+	jumpSound.setVolume(50);
 
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -32,19 +38,19 @@ void Character::Begin()
 
 	b2CircleShape circleShape;
 	circleShape.m_radius = 0.5f;
-	circleShape.m_p.Set(0.0f, 0.0f);
+	circleShape.m_p.Set(0.0f, -0.5f);
 	fixtureDef.shape = &circleShape;
 	body->CreateFixture(&fixtureDef);
 
-	//circleShape.m_p.Set(0.0f, 0.25f);
-	//body->CreateFixture(&fixtureDef);
+	circleShape.m_p.Set(0.0f, 0.5f);
+	body->CreateFixture(&fixtureDef);
 
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.5f, 0.25f);
+	polygonShape.SetAsBox(0.5f, 0.5f);
 	fixtureDef.shape = &polygonShape;// фигура
 	body->CreateFixture(&fixtureDef);
 
-	polygonShape.SetAsBox(0.4f, 0.2f, b2Vec2(0.0f, 0.5f), 0.0f);
+	polygonShape.SetAsBox(0.4f, 0.2f, b2Vec2(0.0f, 1.0f), 0.0f);
 	fixtureDef.userData.pointer = (uintptr_t)this; //приведение указателя к беззнаковому целочисленному типу для сохранения указателя на объект 
 	fixtureDef.isSensor = true;
 	body->CreateFixture(&fixtureDef);
@@ -67,8 +73,10 @@ void Character::Update(float deltaTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		velocity.x -= move;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isGrounded)
-		velocity.y -= jumpVelocity;
-
+	{
+		velocity.y = -jumpVelocity;
+		jumpSound.play();
+	}
 
 	textureToDraw = runAnimation.GetTexture();
 
@@ -77,11 +85,11 @@ void Character::Update(float deltaTime)
 	else if (velocity.x > 0.0f) // else if потому что если == 0, то он не должен менять сторону, при просто else это не учтется
 		dirLeft = false;
 	else
-		textureToDraw = Resources::textures["idle.png"];
+		textureToDraw = Resources::textures["idle1.png"];
 
 
 	if (!isGrounded)
-		textureToDraw = Resources::textures["jump.png"];
+		textureToDraw = Resources::textures["jump1.png"];
 			
 
 	body->SetLinearVelocity(velocity);
@@ -93,7 +101,7 @@ void Character::Update(float deltaTime)
 
 void Character::Draw(Renderer& ren)
 {
-	ren.Draw(textureToDraw, position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, 1.0f), angle); // типо Перс 1 метр ростом и 1 метр в ширину(мы теперь делем исходные данные на 16)
+	ren.Draw(textureToDraw, position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, 2.0f), angle); // типо Перс 1 метр ростом и 1 метр в ширину(мы теперь делем исходные данные на 16)
 }
 
 void Character::OnBeginContact()

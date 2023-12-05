@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <box2d/b2_body.h>
 #include "Renderer.h"
 #include "Physics.h"
@@ -11,6 +12,7 @@ class Character : public ContactListener
 private:
 	Animation runAnimation;
 	sf::Texture textureToDraw;
+	sf::Sound jumpSound;
 
 	b2Body* body;
 	size_t isGrounded = 0; // bool плохо работал
