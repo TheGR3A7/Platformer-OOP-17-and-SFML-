@@ -61,7 +61,7 @@ void Character::Begin()
 
 	polygonShape.SetAsBox(0.4f, 0.2f, b2Vec2(0.0f, 1.0f), 0.0f);
 	fixtureDef.isSensor = true;
-	body->CreateFixture(&fixtureDef);
+	groundFixture = body->CreateFixture(&fixtureDef);
 }
 
 void Character::Update(float deltaTime)
@@ -112,14 +112,14 @@ void Character::Draw(Renderer& ren)
 	ren.Draw(textureToDraw, position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, 2.0f), angle); // типо Перс 1 метр ростом и 1 метр в ширину(мы теперь делем исходные данные на 16)
 }
 
-void Character::OnBeginContact(b2Fixture* other)
+void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 {
 	FixtureData* data = (FixtureData*)other->GetUserData().pointer;
 
 	if (!data)
 		return;
 
-	if(data && data->type == FixtureDataType::MapTile)
+	if(groundFixture == self && data->type == FixtureDataType::MapTile)
 		isGrounded++;
 	else if (data->type == FixtureDataType::Object && data->object->tag == "coin")
 	{
@@ -128,13 +128,13 @@ void Character::OnBeginContact(b2Fixture* other)
 	}
 }
 
-void Character::OnEndContact(b2Fixture* other)
+void Character::OnEndContact(b2Fixture* self, b2Fixture* other)
 {
 	FixtureData* data = (FixtureData*)other->GetUserData().pointer;
 
 	if (!data)
 		return;
 
-	if (data && data->type == FixtureDataType::MapTile && isGrounded > 0)
+	if (groundFixture == self && data->type == FixtureDataType::MapTile && isGrounded > 0)
 		isGrounded--;
 }

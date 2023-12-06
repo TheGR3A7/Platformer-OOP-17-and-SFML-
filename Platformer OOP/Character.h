@@ -17,6 +17,7 @@ private:
 	sf::Sound jumpSound;
 
 	b2Body* body;
+	b2Fixture* groundFixture;
 	size_t isGrounded = 0; // bool плохо работал
 	bool dirLeft = false;
 
@@ -30,6 +31,6 @@ public:
 	void Draw(Renderer& ren);
 
 	// Унаследовано через ContactListener
-	virtual void OnBeginContact(b2Fixture* other) override;
-	virtual void OnEndContact(b2Fixture* other) override;
+	virtual void OnBeginContact(b2Fixture* self, b2Fixture* other) override;
+	virtual void OnEndContact(b2Fixture* self, b2Fixture* other) override;
 };
