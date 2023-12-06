@@ -3,12 +3,16 @@
 #include "Map.h"
 #include "Character.h"
 #include "Physics.h"
+#include "Object.h"
 #include <SFML/Audio.hpp>
 #include <filesystem>
+
+using namespace std;
 
 Map gameMap(1.0f);
 Camera camera(20.0f);
 Character player;
+vector<Object*> objects;
 
 sf::Music music;
 
@@ -38,8 +42,13 @@ void Begin(const sf::Window& win)
 
 	sf::Image image;
 	image.loadFromFile("Images/map.png");
-	player.position = gameMap.CreateFromImage(image);
+	player.position = gameMap.CreateFromImage(image, objects);
 	player.Begin();
+
+	for (auto& object : objects)
+	{
+		object->Begin();
+	}
 
 	music.play();
 }
@@ -49,14 +58,24 @@ void Update(float deltaTime)
 	Physics::Update(deltaTime);
 	player.Update(deltaTime);
 	camera.position = player.position;
+
+	for (auto& object : objects)
+	{
+		object->Update(deltaTime);
+	}
 }
 
 void Render(Renderer& ren)
 {
-	ren.Draw(Resources::textures["background.png"], camera.position, camera.GetViewSize());
+//	ren.Draw(Resources::textures["background.png"], camera.position, camera.GetViewSize());
 
 	gameMap.Draw(ren);
 	player.Draw(ren);
+
+	for (auto& object : objects)
+	{
+		object->Render(ren);
+	}
 
 	Physics::DebugDraw(ren);
 }

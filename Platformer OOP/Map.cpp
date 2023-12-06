@@ -3,6 +3,10 @@
 #include "Physics.h"
 #include <box2d/b2_body.h>
 #include <box2d/b2_polygon_shape.h>
+#include "Object.h"
+#include "Coin.h"
+
+using namespace std;
 
 Map::Map(float cellSize) : cellSize(cellSize), grid()
 {
@@ -26,7 +30,7 @@ void Map::CreateChekerboard(size_t width, size_t height)
 	}
 }
 
-sf::Vector2f Map::CreateFromImage(const sf::Image& image)
+sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objects)
 {
 	grid.clear();
 	grid = vector(image.getSize().x, vector(image.getSize().y, 0));
@@ -50,6 +54,12 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image)
 			}
 			else if (color == sf::Color::Red)
 				characterPosition = sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
+			else if (color == sf::Color::Yellow)
+			{
+				Object* coin = new Coin();
+				coin->position = sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
+				objects.push_back(coin);
+			}
 		}
 	}
 
