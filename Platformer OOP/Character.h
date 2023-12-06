@@ -10,6 +10,8 @@
 class Character : public ContactListener
 {
 private:
+	FixtureData fixtureData;
+
 	Animation runAnimation;
 	sf::Texture textureToDraw;
 	sf::Sound jumpSound;
@@ -26,6 +28,6 @@ public:
 	void Draw(Renderer& ren);
 
 	// Унаследовано через ContactListener
-	virtual void OnBeginContact() override;
-	virtual void OnEndContact() override;
+	virtual void OnBeginContact(b2Fixture* other) override;
+	virtual void OnEndContact(b2Fixture* other) override;
 };

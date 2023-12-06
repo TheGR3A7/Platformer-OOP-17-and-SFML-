@@ -104,28 +104,28 @@ class MyGlobalContactListener : public b2ContactListener
 {
 	virtual void BeginContact(b2Contact* contact) override
 	{
-		ContactListener* listener = (ContactListener*)contact->GetFixtureA()->GetUserData().pointer;
+		FixtureData* data = (FixtureData*)contact->GetFixtureA()->GetUserData().pointer;
 
-		if (listener)
-			listener->OnBeginContact();
+		if (data && data->listener)
+			data->listener->OnBeginContact(contact->GetFixtureB());
 
-		listener = (ContactListener*)contact->GetFixtureB()->GetUserData().pointer;
+		data = (FixtureData*)contact->GetFixtureB()->GetUserData().pointer;
 
-		if (listener)
-			listener->OnBeginContact();
+		if (data && data->listener)
+			data->listener->OnBeginContact(contact->GetFixtureA());
 	}
 
 	virtual void EndContact(b2Contact* contact) override
 	{
-		ContactListener* listener = (ContactListener*)contact->GetFixtureA()->GetUserData().pointer;
+		FixtureData* data = (FixtureData*)contact->GetFixtureA()->GetUserData().pointer;
 
-		if (listener)
-			listener->OnEndContact();
+		if (data && data->listener)
+			data->listener->OnEndContact(contact->GetFixtureB());
 
-		listener = (ContactListener*)contact->GetFixtureB()->GetUserData().pointer;
+		data = (FixtureData*)contact->GetFixtureB()->GetUserData().pointer;
 
-		if (listener)
-			listener->OnEndContact();
+		if (data && data->listener)
+			data->listener->OnEndContact(contact->GetFixtureA());
 	}
 };
 

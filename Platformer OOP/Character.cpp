@@ -25,6 +25,10 @@ void Character::Begin()
 	jumpSound.setBuffer(Resources::sounds["jump.wav"]);
 	jumpSound.setVolume(50);
 
+	fixtureData.listener = this;
+	fixtureData.character = this;
+	fixtureData.type = FixtureDataType::Character;
+
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(position.x, position.y);
@@ -33,7 +37,8 @@ void Character::Begin()
 
 
 	b2FixtureDef fixtureDef;
-	fixtureDef.density = 1.0f; // плотность
+	fixtureDef.userData.pointer = (uintptr_t)&fixtureData; //приведение указателя к беззнаковому целочисленному типу для сохранения указателя на объект 
+	fixtureDef.density = 1.0f; 
 	fixtureDef.friction = 0.0f; // трение
 
 	b2CircleShape circleShape;
@@ -51,7 +56,6 @@ void Character::Begin()
 	body->CreateFixture(&fixtureDef);
 
 	polygonShape.SetAsBox(0.4f, 0.2f, b2Vec2(0.0f, 1.0f), 0.0f);
-	fixtureDef.userData.pointer = (uintptr_t)this; //приведение указателя к беззнаковому целочисленному типу для сохранения указателя на объект 
 	fixtureDef.isSensor = true;
 	body->CreateFixture(&fixtureDef);
 }
@@ -104,13 +108,18 @@ void Character::Draw(Renderer& ren)
 	ren.Draw(textureToDraw, position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, 2.0f), angle); // типо Перс 1 метр ростом и 1 метр в ширину(мы теперь делем исходные данные на 16)
 }
 
-void Character::OnBeginContact()
+void Character::OnBeginContact(b2Fixture* other)
 {
-	isGrounded++;
+	FixtureData* data = (FixtureData*)other->GetUserData().pointer;
+
+	if(data && data->type == FixtureDataType::MapTile)
+		isGrounded++;
 }
 
-void Character::OnEndContact()
+void Character::OnEndContact(b2Fixture* other)
 {
-	if (isGrounded > 0)
+	FixtureData* data = (FixtureData*)other->GetUserData().pointer;
+
+	if (data && data->type == FixtureDataType::MapTile && isGrounded > 0)
 		isGrounded--;
 }
