@@ -1,11 +1,15 @@
 #define _USE_MATH_DEFINES
 #include "Character.h"
 #include "Resources.h"
+#include "Object.h"
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_circle_shape.h>
 #include <box2d/b2_fixture.h>
 #include <cmath>
+#include <iostream>
+#include "Game.h"
 
+using namespace std;
 
 const float movementSpeed = 7.0f;
 const float jumpVelocity = 10.0f;
@@ -112,13 +116,24 @@ void Character::OnBeginContact(b2Fixture* other)
 {
 	FixtureData* data = (FixtureData*)other->GetUserData().pointer;
 
+	if (!data)
+		return;
+
 	if(data && data->type == FixtureDataType::MapTile)
 		isGrounded++;
+	else if (data->type == FixtureDataType::Object && data->object->tag == "coin")
+	{
+		DeleteObject(data->object);
+		cout << "coins = " << ++coins << endl;
+	}
 }
 
 void Character::OnEndContact(b2Fixture* other)
 {
 	FixtureData* data = (FixtureData*)other->GetUserData().pointer;
+
+	if (!data)
+		return;
 
 	if (data && data->type == FixtureDataType::MapTile && isGrounded > 0)
 		isGrounded--;

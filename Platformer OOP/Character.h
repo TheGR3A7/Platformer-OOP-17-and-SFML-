@@ -19,6 +19,8 @@ private:
 	b2Body* body;
 	size_t isGrounded = 0; // bool плохо работал
 	bool dirLeft = false;
+
+	size_t coins;
 public:
 	sf::Vector2f position;
 	float angle;

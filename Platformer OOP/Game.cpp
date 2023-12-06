@@ -79,3 +79,13 @@ void Render(Renderer& ren)
 
 	Physics::DebugDraw(ren);
 }
+
+void DeleteObject(Object* object)
+{
+	const auto& iter = find(objects.begin(), objects.end(), object);
+	if (iter != objects.end())
+	{
+		delete* iter;
+		objects.erase(iter);
+	}
+}
