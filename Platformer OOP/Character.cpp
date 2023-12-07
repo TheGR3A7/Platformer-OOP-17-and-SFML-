@@ -14,6 +14,11 @@ using namespace std;
 const float movementSpeed = 7.0f;
 const float jumpVelocity = 10.0f;
 
+size_t Character::GetCoins()
+{
+	return coins;
+}
+
 void Character::Begin()
 {
 	runAnimation = Animation(0.72f,

@@ -10,5 +10,6 @@ extern Camera camera;
 void Begin(const sf::Window& win);
 void Update(float deltaTime);
 void Render(Renderer& ren);
+void RenderUI(Renderer& ren);
 
 void DeleteObject(Object* object);

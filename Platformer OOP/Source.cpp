@@ -38,12 +38,15 @@ int main()
 
 		}
 
-		win.setView(camera.GetView(win.getSize()));
 		Update(deltaTime);
-
-
 		win.clear(sf::Color(0, 219, 255));
+
+		win.setView(camera.GetView(win.getSize()));
 		Render(ren);
+
+		win.setView(camera.GetUIView());
+		RenderUI(ren);
+
 		win.display();
 	}
 }

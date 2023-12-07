@@ -25,6 +25,8 @@ private:
 public:
 	sf::Vector2f position;
 	float angle;
+	size_t GetCoins();
+
 
 	void Begin();
 	void Update(float deltaTime);

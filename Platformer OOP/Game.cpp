@@ -15,6 +15,8 @@ Character player;
 vector<Object*> objects;
 
 sf::Music music;
+sf::Font font;
+sf::Text coinsText("Coins", font);
 
 void Begin(const sf::Window& win)
 {
@@ -36,7 +38,13 @@ void Begin(const sf::Window& win)
 
 	music.openFromFile("Sounds/mainMusic.wav");
 	music.setLoop(true);
-	music.setVolume(30);
+	music.setVolume(25);
+
+	font.loadFromFile("Fonts/NicoPaint-Regular.ttf");
+	coinsText.setFillColor(sf::Color::Yellow);
+	coinsText.setOutlineColor(sf::Color::Black);
+	coinsText.setOutlineThickness(1.0f);
+	coinsText.setScale(0.1f, 0.1f);
 
 	Physics::Init();
 
@@ -78,6 +86,13 @@ void Render(Renderer& ren)
 	}
 
 	Physics::DebugDraw(ren);
+}
+
+void RenderUI(Renderer& ren)
+{
+	coinsText.setPosition(-camera.GetViewSize() / 2.0f + sf::Vector2f(2.0f, 1.0f));
+	coinsText.setString("Coins: " + to_string(player.GetCoins()));
+	ren.target.draw(coinsText);
 }
 
 void DeleteObject(Object* object)

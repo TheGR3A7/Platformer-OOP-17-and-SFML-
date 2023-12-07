@@ -19,3 +19,10 @@ sf::View Camera::GetView(sf::Vector2u winSize)
 		viewSize = sf::Vector2f(zoomLevel * dt, zoomLevel);
 	return sf::View(position, viewSize);
 }
+
+sf::View Camera::GetUIView()
+{
+	float dt = viewSize.x / viewSize.y;
+	viewSize = sf::Vector2f(100.0f, 100.0f / dt);
+	return sf::View(sf::Vector2f(), viewSize);
+}
