@@ -9,7 +9,7 @@ using namespace std;
 class Map
 {
 public:
-	vector<vector<int>> grid;
+	vector<vector<sf::Texture*>> grid;
 	float cellSize;
 
 	Map(float cellSize = 32.0f);

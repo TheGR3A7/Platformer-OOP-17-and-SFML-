@@ -16,7 +16,7 @@ Map::Map(float cellSize) : cellSize(cellSize), grid()
 
 void Map::CreateChekerboard(size_t width, size_t height)
 {
-	grid = vector(width, vector(height, 1));
+	grid = vector(width, vector(height, (sf::Texture*)nullptr));
 
 	bool last = 0;
 
@@ -24,7 +24,9 @@ void Map::CreateChekerboard(size_t width, size_t height)
 	{
 		for (auto& cell : column)
 		{
-			last = cell = !last;
+			last = !last;
+			if (last)
+				cell = &Resources::textures["brick.png"];
 		}
 		if (width % 2 == 0)
 			last = !last;
@@ -34,7 +36,7 @@ void Map::CreateChekerboard(size_t width, size_t height)
 sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objects)
 {
 	grid.clear();
-	grid = vector(image.getSize().x, vector(image.getSize().y, 0));
+	grid = vector(image.getSize().x, vector(image.getSize().y,(sf::Texture*)nullptr));
 
 	sf::Vector2f characterPosition;
 
@@ -43,9 +45,33 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 		for (size_t y = 0; y < grid[x].size(); y++) 
 		{
 			sf::Color color = image.getPixel(x, y);
-			if (color == sf::Color::Black)
+			Object* object = nullptr;
+
+			if (color == sf::Color::Red)
 			{
-				grid[x][y] = 1;
+				characterPosition = sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
+				continue;
+			}
+			else if (color == sf::Color::Black)
+			{
+				grid[x][y] = &Resources::textures["brick.png"];
+			}
+			else if (color == sf::Color::Blue)
+			{
+				grid[x][y] = &Resources::textures["marble.png"];
+			}
+			else if (color == sf::Color::Yellow)
+			{
+				object = new Coin();
+			}
+
+			if (object)
+			{
+				object->position = sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
+				objects.push_back(object);
+			}
+			else if (grid[x][y])
+			{
 				b2BodyDef bodyDef;
 				bodyDef.position.Set(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
 				b2Body* body = Physics::world.CreateBody(&bodyDef);
@@ -59,17 +85,9 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 
 				b2FixtureDef fixtureDef;
 				fixtureDef.userData.pointer = (uintptr_t)fixtureData; //приведение указателя к беззнаковому целочисленному типу для сохранения указателя на объект 
-				fixtureDef.density = 0.0f; 
+				fixtureDef.density = 0.0f;
 				fixtureDef.shape = &shape;
 				body->CreateFixture(&fixtureDef);
-			}
-			else if (color == sf::Color::Red)
-				characterPosition = sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
-			else if (color == sf::Color::Yellow)
-			{
-				Object* coin = new Coin();
-				coin->position = sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
-				objects.push_back(coin);
 			}
 		}
 	}
@@ -87,7 +105,7 @@ void Map::Draw(Renderer& ren)
 		{
 			if (cell)
 			{
-				ren.Draw(Resources::textures["brick2.png"], sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f), sf::Vector2f(cellSize, cellSize));
+				ren.Draw(*cell, sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f), sf::Vector2f(cellSize, cellSize));
 			}
 			y++;
 		}
