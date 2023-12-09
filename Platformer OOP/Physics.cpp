@@ -4,7 +4,7 @@
 #include <box2d/b2_world_callbacks.h>
 #include <box2d/b2_contact.h>
 
-b2World Physics::world{b2Vec2(0.0f, 9.8f)};
+b2World* Physics::world;
 MyDebugDraw* Physics::debugDraw{nullptr};
 
 class MyDebugDraw : public b2Draw
@@ -131,13 +131,17 @@ class MyGlobalContactListener : public b2ContactListener
 
 void Physics::Init()
 {
+	if (world)
+		delete world;
 
+	world = new b2World(b2Vec2(0.0f, 9.8f));
+	world->SetDebugDraw(debugDraw);
 }
 
 void Physics::Update(float deltaTime)
 {
-	world.Step(deltaTime, 8, 3);
-	world.SetContactListener(new MyGlobalContactListener());
+	world->Step(deltaTime, 8, 3);
+	world->SetContactListener(new MyGlobalContactListener());
 }
 
 void Physics::DebugDraw(Renderer& ren)
@@ -148,8 +152,8 @@ void Physics::DebugDraw(Renderer& ren)
 		//debugDraw->SetFlags(b2Draw::e_aabbBit); // рисуется граница объекта
 		//debugDraw->SetFlags(b2Draw::e_shapeBit); // рисуется фигуры объекта
 		//debugDraw->SetFlags(b2Draw::e_centerOfMassBit); // рисуется цент масс объекта
-		world.SetDebugDraw(debugDraw);
+		world->SetDebugDraw(debugDraw);
 	}
 
-	world.DebugDraw();
+	world->DebugDraw();
 }

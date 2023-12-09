@@ -43,7 +43,7 @@ void Character::Begin()
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(position.x, position.y);
 	bodyDef.fixedRotation = true; // убирает вращение персонажа
-	body = Physics::world.CreateBody(&bodyDef);
+	body = Physics::world->CreateBody(&bodyDef);
 
 
 	b2FixtureDef fixtureDef;
@@ -132,11 +132,15 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 		DeleteObject(data->object);
 		cout << "coins = " << ++coins << endl;
 	}
-	else if (groundFixture == self && data->type == FixtureDataType::Object && data->object->tag == "enemy")
+	else if (data->type == FixtureDataType::Object && data->object->tag == "enemy")
 	{
 		Enemy* enemy = dynamic_cast<Enemy*>(data->object);
-		if (enemy)
+		if (!enemy)
+			return;
+		if (groundFixture == self)
 			enemy->Die();
+		else if(!enemy->IsDead())
+			isDead = true;
 	}
 }
 

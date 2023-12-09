@@ -7,7 +7,7 @@
 
 Coin::~Coin()
 {
-	Physics::world.DestroyBody(body);
+	Physics::world->DestroyBody(body);
 }
 
 void Coin::Begin()
@@ -26,7 +26,7 @@ void Coin::Begin()
 
 	b2BodyDef bodyDef;
 	bodyDef.position.Set(position.x, position.y);
-	b2Body* body = Physics::world.CreateBody(&bodyDef);
+	b2Body* body = Physics::world->CreateBody(&bodyDef);
 	b2PolygonShape shape;
 	shape.SetAsBox(0.4f, 0.4f);
 

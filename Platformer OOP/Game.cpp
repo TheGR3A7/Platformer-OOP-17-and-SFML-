@@ -15,10 +15,30 @@ Character player;
 vector<Object*> objects;
 bool paused;
 
+sf::Image mapImage;
 sf::Music music;
 sf::Font font;
 sf::Text coinsText("Coins", font);
 sf::RectangleShape backgroundShape(sf::Vector2f(1.0f, 1.0f));
+
+void Restart()
+{
+	Physics::Init();
+
+	player = Character();
+	player.position = gameMap.CreateFromImage(mapImage, objects);
+
+	player.isDead = false;
+	paused = false;
+
+	player.Begin();
+	for (auto& object : objects)
+	{
+		object->Begin();
+	}
+
+	music.play();
+}
 
 void Begin()
 {
@@ -51,24 +71,16 @@ void Begin()
 	backgroundShape.setFillColor(sf::Color(0, 0, 0, 150));
 	backgroundShape.setOrigin(0.5f, 0.5f);
 
-	Physics::Init();
+	mapImage.loadFromFile("Images/map.png");
 
-	sf::Image image;
-	image.loadFromFile("Images/map.png");
-	player.position = gameMap.CreateFromImage(image, objects);
-	player.Begin();
-
-	for (auto& object : objects)
-	{
-		object->Begin();
-	}
-
-	music.play();
+	Restart();
 }
 
 void Update(float deltaTime)
 {
-	if (paused)
+	if (player.isDead && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+			Restart();
+	if (player.isDead || paused)
 		return;
 
 	Physics::Update(deltaTime);

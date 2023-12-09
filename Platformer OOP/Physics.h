@@ -37,7 +37,7 @@ struct FixtureData
 class Physics
 {
 public:
-	static b2World world;
+	static b2World* world;
 	static MyDebugDraw* debugDraw;
 
 	static void Init();

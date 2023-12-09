@@ -24,7 +24,7 @@ void Enemy::Begin()
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(position.x, position.y);
 	bodyDef.fixedRotation = true;
-	body = Physics::world.CreateBody(&bodyDef);
+	body = Physics::world->CreateBody(&bodyDef);
 
 	b2CircleShape circleShape;
 	circleShape.m_radius = 0.5f;
@@ -76,7 +76,11 @@ void Enemy::Render(Renderer& ren)
 void Enemy::Die()
 {
 	isDead = true;
-	//Physics::world.DestroyBody(body);
+	Physics::world->DestroyBody(body);
 }
 
+bool Enemy::IsDead()
+{
+	return IsDead;
+}
 

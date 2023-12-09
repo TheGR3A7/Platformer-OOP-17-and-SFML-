@@ -22,5 +22,6 @@ public:
 	virtual void Render(Renderer& ren) override;
 
 	void Die();
+	bool IsDead();
 };
 
