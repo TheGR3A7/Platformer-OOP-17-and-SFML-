@@ -4,8 +4,8 @@
 #include "Renderer.h"
 
 class MyDebugDraw;
-class Character;
 class Object;
+class Character;
 
 class ContactListener
 {

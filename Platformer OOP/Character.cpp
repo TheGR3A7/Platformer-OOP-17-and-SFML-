@@ -8,6 +8,7 @@
 #include <cmath>
 #include <iostream>
 #include "Game.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -130,6 +131,12 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 	{
 		DeleteObject(data->object);
 		cout << "coins = " << ++coins << endl;
+	}
+	else if (groundFixture == self && data->type == FixtureDataType::Object && data->object->tag == "enemy")
+	{
+		Enemy* enemy = dynamic_cast<Enemy*>(data->object);
+		if (enemy)
+			enemy->Die();
 	}
 }
 

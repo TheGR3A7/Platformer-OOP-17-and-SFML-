@@ -1,6 +1,9 @@
+#define _USE_MATH_DEFINES
+#include "Game.h"
 #include "Enemy.h"
 #include "Resources.h"
 #include <box2d/b2_circle_shape.h>
+#include <cmath>
 
 void Enemy::Begin()
 {
@@ -36,12 +39,45 @@ void Enemy::Begin()
 
 void Enemy::Update(float deltaTime)
 {
+	if (isDead)
+	{
+		destroyTimer += deltaTime;
+		if (destroyTimer >= 2.0f)
+			DeleteObject(this);
+
+		return;
+	}
+
 	animation.Update(deltaTime);
+
+	b2Vec2 velocity = body->GetLinearVelocity();
+
+	if (abs(velocity.x == 0))
+		movement *= -1.0f;
+
+	velocity.x = movement;
+
+	if (velocity.x < 0.0f)
+		dirLeft = true;
+	else if (velocity.x > 0.0f) 
+		dirLeft = false;
+
+	body->SetLinearVelocity(velocity);
+
+	position = sf::Vector2f(body->GetPosition().x, body->GetPosition().y);
+	angle = body->GetAngle() * (180.0f / M_PI);
 }
 
 void Enemy::Render(Renderer& ren)
 {
-	ren.Draw(animation.GetTexture(), position, sf::Vector2f(1.0f, 1.0f), angle);
+	//!isDead ? position : sf::Vector2f(position.x, position.y + 0.35f)
+	ren.Draw(animation.GetTexture(), position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, isDead ? 0.4f : 1.0f), angle);
+}
+
+void Enemy::Die()
+{
+	isDead = true;
+	Physics::world.DestroyBody(body);
 }
 
 

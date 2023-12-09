@@ -38,7 +38,7 @@ public:
 		{
 			shape.setPoint(i, sf::Vector2f(vertices[i].x, vertices[i].y));
 		}
-		shape.setFillColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 180));
+		shape.setFillColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 120));
 		target.draw(shape);
 	}
 
@@ -68,7 +68,7 @@ public:
 	virtual void DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color) override
 	{
 		sf::VertexArray va(sf::Lines, 2);
-		sf::Color sfColor((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 255);
+		sf::Color sfColor((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 120);
 
 		va[0].position = sf::Vector2f(p1.x, p1.y);
 		va[0].color = sfColor;
@@ -94,7 +94,7 @@ public:
 		sf::CircleShape circle(size);
 		circle.setPosition(p.x, p.y);
 		circle.setOrigin(size, size);
-		circle.setFillColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 255));
+		circle.setFillColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 120));
 		target.draw(circle);
 	}
 
