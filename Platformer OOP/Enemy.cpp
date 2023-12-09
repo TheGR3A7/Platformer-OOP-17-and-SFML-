@@ -43,8 +43,10 @@ void Enemy::Update(float deltaTime)
 	{
 		destroyTimer += deltaTime;
 		if (destroyTimer >= 2.0f)
+		{
+			Physics::world->DestroyBody(body); // пофиксилось удаление
 			DeleteObject(this);
-
+		}
 		return;
 	}
 
@@ -52,14 +54,14 @@ void Enemy::Update(float deltaTime)
 
 	b2Vec2 velocity = body->GetLinearVelocity();
 
-	if (abs(velocity.x <= 0.2f))
+	if (abs(velocity.x == 0.00f))
 		movement *= -1.0f;
 
 	velocity.x = movement;
 
-	if (velocity.x < -0.02f)
+	if (velocity.x < 0.0f)
 		dirLeft = true;
-	else if (velocity.x > 0.02f) 
+	else if (velocity.x > 0.0f) 
 		dirLeft = false;
 
 	body->SetLinearVelocity(velocity);
@@ -73,10 +75,9 @@ void Enemy::Render(Renderer& ren)
 	ren.Draw(animation.GetTexture(), !isDead ? position : sf::Vector2f(position.x, position.y + 0.35f), sf::Vector2f(dirLeft ? -1.0f : 1.0f, isDead ? 0.4f : 1.0f), angle);
 }
 
-void Enemy::Die()
-{
+void Enemy::Die() {
 	isDead = true;
-	Physics::world->DestroyBody(body);
+	//Physics::world->DestroyBody(body); 
 }
 
 bool Enemy::IsDead()

@@ -91,6 +91,7 @@ void Update(float deltaTime)
 	{
 		object->Update(deltaTime);
 	}
+
 }
 
 void Render(Renderer& ren)
