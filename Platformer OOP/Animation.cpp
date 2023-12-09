@@ -1,7 +1,8 @@
 #include "Animation.h"
 
+using namespace std;
 
-Animation::Animation(float lenght, std::vector<AnimFrame> frames) : lenght(lenght), frames(frames)
+Animation::Animation(float lenght, vector<AnimFrame> frames) : lenght(lenght), frames(frames)
 {
 }
 
@@ -19,7 +20,7 @@ sf::Texture Animation::GetTexture()
 
 	for (auto& frame : frames)
 	{
-		if (time >= frame.time) // надо будет указывать в обратном порядке текстуры(с последней на первую)
+		if (time >= frame.time) 
 			return frame.texture;
 	}
 

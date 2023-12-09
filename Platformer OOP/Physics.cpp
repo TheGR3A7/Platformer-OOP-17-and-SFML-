@@ -38,7 +38,7 @@ public:
 		{
 			shape.setPoint(i, sf::Vector2f(vertices[i].x, vertices[i].y));
 		}
-		shape.setFillColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 255));
+		shape.setFillColor(sf::Color((sf::Uint8)color.r * 255, (sf::Uint8)color.g * 255, (sf::Uint8)color.b * 255, (sf::Uint8)color.a * 180));
 		target.draw(shape);
 	}
 
@@ -146,7 +146,7 @@ void Physics::DebugDraw(Renderer& ren)
 	{
 		debugDraw = new MyDebugDraw(ren.target);
 		//debugDraw->SetFlags(b2Draw::e_aabbBit); // рисуется граница объекта
-		//debugDraw->SetFlags(b2Draw::e_shapeBit); // рисуется фигруы объекта
+		//debugDraw->SetFlags(b2Draw::e_shapeBit); // рисуется фигуры объекта
 		//debugDraw->SetFlags(b2Draw::e_centerOfMassBit); // рисуется цент масс объекта
 		world.SetDebugDraw(debugDraw);
 	}

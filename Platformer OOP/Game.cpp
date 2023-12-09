@@ -75,7 +75,7 @@ void Update(float deltaTime)
 
 void Render(Renderer& ren)
 {
-//	ren.Draw(Resources::textures["background.png"], camera.position, camera.GetViewSize());
+ 	ren.Draw(Resources::textures["background.png"], camera.position, camera.GetViewSize());
 
 	gameMap.Draw(ren);
 	player.Draw(ren);

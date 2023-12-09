@@ -1,11 +1,12 @@
 #include "Map.h"
 #include "Resources.h"
 #include "Physics.h"
+#include "Object.h"
+#include "Coin.h"
+#include "Enemy.h"
 #include <box2d/b2_body.h>
 #include <box2d/b2_fixture.h>
 #include <box2d/b2_polygon_shape.h>
-#include "Object.h"
-#include "Coin.h"
 
 using namespace std;
 
@@ -63,6 +64,10 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			else if (color == sf::Color::Yellow)
 			{
 				object = new Coin();
+			}
+			else if (color == sf::Color::Green)
+			{
+				object = new Enemy();
 			}
 
 			if (object)

@@ -1,7 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera(float zoomLevel)
-	: zoomLevel(zoomLevel) 
+Camera::Camera(float zoomLevel) : zoomLevel(zoomLevel) 
 {
 }
 
