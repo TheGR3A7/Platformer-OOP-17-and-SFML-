@@ -20,16 +20,16 @@ void Enemy::Begin()
 	fixtureData.object = this;
 	fixtureData.type = FixtureDataType::Object;
 
-	b2BodyDef bodyDef{};
+	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(position.x, position.y);
 	bodyDef.fixedRotation = true;
 	body = Physics::world.CreateBody(&bodyDef);
 
-	b2CircleShape circleShape{};
+	b2CircleShape circleShape;
 	circleShape.m_radius = 0.5f;
 
-	b2FixtureDef fixtureDef{};
+	b2FixtureDef fixtureDef;
 	fixtureDef.userData.pointer = (uintptr_t)&fixtureData;
 	fixtureDef.shape = &circleShape;
 	fixtureDef.density = 1.0f;
@@ -70,14 +70,13 @@ void Enemy::Update(float deltaTime)
 
 void Enemy::Render(Renderer& ren)
 {
-	//!isDead ? position : sf::Vector2f(position.x, position.y + 0.35f)
-	ren.Draw(animation.GetTexture(), position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, isDead ? 0.4f : 1.0f), angle);
+	ren.Draw(animation.GetTexture(), !isDead ? position : sf::Vector2f(position.x, position.y + 0.35f), sf::Vector2f(dirLeft ? -1.0f : 1.0f, isDead ? 0.4f : 1.0f), angle);
 }
 
 void Enemy::Die()
 {
 	isDead = true;
-	Physics::world.DestroyBody(body);
+	//Physics::world.DestroyBody(body);
 }
 
 

@@ -13,12 +13,14 @@ Map gameMap(1.0f);
 Camera camera(20.0f);
 Character player;
 vector<Object*> objects;
+bool paused;
 
 sf::Music music;
 sf::Font font;
 sf::Text coinsText("Coins", font);
+sf::RectangleShape backgroundShape(sf::Vector2f(1.0f, 1.0f));
 
-void Begin(const sf::Window& win)
+void Begin()
 {
 	for (auto& file : filesystem::directory_iterator("./Images/"))
 	{
@@ -46,6 +48,9 @@ void Begin(const sf::Window& win)
 	coinsText.setOutlineThickness(1.0f);
 	coinsText.setScale(0.1f, 0.1f);
 
+	backgroundShape.setFillColor(sf::Color(0, 0, 0, 150));
+	backgroundShape.setOrigin(0.5f, 0.5f);
+
 	Physics::Init();
 
 	sf::Image image;
@@ -63,6 +68,9 @@ void Begin(const sf::Window& win)
 
 void Update(float deltaTime)
 {
+	if (paused)
+		return;
+
 	Physics::Update(deltaTime);
 	player.Update(deltaTime);
 	camera.position = player.position;
@@ -75,15 +83,16 @@ void Update(float deltaTime)
 
 void Render(Renderer& ren)
 {
- 	ren.Draw(Resources::textures["background.png"], camera.position, camera.GetViewSize());
+ 	ren.Draw(Resources::textures["background.png"], player.position, camera.GetViewSize());
 
 	gameMap.Draw(ren);
-	player.Draw(ren);
 
 	for (auto& object : objects)
 	{
 		object->Render(ren);
 	}
+
+	player.Draw(ren);
 
 	Physics::DebugDraw(ren);
 }
@@ -93,6 +102,12 @@ void RenderUI(Renderer& ren)
 	coinsText.setPosition(-camera.GetViewSize() / 2.0f + sf::Vector2f(2.0f, 1.0f));
 	coinsText.setString("Coins: " + to_string(player.GetCoins()));
 	ren.target.draw(coinsText);
+
+	if (paused)
+	{
+		backgroundShape.setScale(camera.GetViewSize());
+		ren.target.draw(backgroundShape);
+	}
 }
 
 void DeleteObject(Object* object)

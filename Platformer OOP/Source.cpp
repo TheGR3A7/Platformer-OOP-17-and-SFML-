@@ -13,7 +13,7 @@ int main()
 	Renderer ren(win);
 
 	win.setFramerateLimit(60);
-	Begin(win);
+	Begin();
 
 	while (win.isOpen())
 	{
@@ -31,7 +31,8 @@ int main()
 			case sf::Event::KeyPressed:
 				switch (event.key.code)
 				{
-
+				case sf::Keyboard::Escape:
+					paused = !paused;
 				}
 
 			}
