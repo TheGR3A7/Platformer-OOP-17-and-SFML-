@@ -1,7 +1,6 @@
 #include "Map.h"
 #include "Resources.h"
 #include "Physics.h"
-#include "Object.h"
 #include "Coin.h"
 #include "Enemy.h"
 #include <box2d/b2_body.h>
@@ -36,6 +35,7 @@ void Map::CreateChekerboard(size_t width, size_t height)
 
 sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objects)
 {
+	objects.clear();
 	grid.clear();
 	grid = vector(image.getSize().x, vector(image.getSize().y,(sf::Texture*)nullptr));
 

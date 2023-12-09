@@ -23,8 +23,8 @@ enum class FixtureDataType
 
 struct FixtureData
 {
-	ContactListener* listener;
 	FixtureDataType type;
+	ContactListener* listener;
 
 	union
 	{

@@ -15,11 +15,6 @@ using namespace std;
 const float movementSpeed = 7.0f;
 const float jumpVelocity = 10.0f;
 
-size_t Character::GetCoins()
-{
-	return coins;
-}
-
 void Character::Begin()
 {
 	runAnimation = Animation(0.72f,
@@ -94,9 +89,9 @@ void Character::Update(float deltaTime)
 
 	textureToDraw = runAnimation.GetTexture();
 
-	if (velocity.x < 0.0f)
+	if (velocity.x < -0.02f)
 		dirLeft = true;
-	else if (velocity.x > 0.0f) // else if потому что если == 0, то он не должен менять сторону, при просто else это не учтется
+	else if (velocity.x > 0.02f) // else if потому что если == 0, то он не должен менять сторону, при просто else это не учтется
 		dirLeft = false;
 	else
 		textureToDraw = Resources::textures["idle1.png"];
@@ -153,4 +148,9 @@ void Character::OnEndContact(b2Fixture* self, b2Fixture* other)
 
 	if (groundFixture == self && data->type == FixtureDataType::MapTile && isGrounded > 0)
 		isGrounded--;
+}
+
+size_t Character::GetCoins()
+{
+	return coins;
 }

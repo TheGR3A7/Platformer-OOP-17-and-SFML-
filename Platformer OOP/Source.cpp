@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-
 #include "Game.h"
 #include "Renderer.h"
 #include "Standard Values.h"
@@ -33,6 +32,7 @@ int main()
 				{
 				case sf::Keyboard::Escape:
 					paused = !paused;
+					break;
 				}
 
 			}

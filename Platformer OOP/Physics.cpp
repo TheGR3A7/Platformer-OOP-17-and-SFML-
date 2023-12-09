@@ -1,8 +1,8 @@
 #include "Physics.h"
 #include <SFML/Graphics.hpp>
-#include <box2d/b2_draw.h>
 #include <box2d/b2_world_callbacks.h>
 #include <box2d/b2_contact.h>
+#include <box2d/b2_draw.h>
 
 b2World* Physics::world;
 MyDebugDraw* Physics::debugDraw{nullptr};

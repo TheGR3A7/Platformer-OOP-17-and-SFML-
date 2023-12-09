@@ -1,9 +1,9 @@
 #define _USE_MATH_DEFINES
+#include <cmath>
 #include "Game.h"
 #include "Enemy.h"
 #include "Resources.h"
 #include <box2d/b2_circle_shape.h>
-#include <cmath>
 
 void Enemy::Begin()
 {
@@ -52,14 +52,14 @@ void Enemy::Update(float deltaTime)
 
 	b2Vec2 velocity = body->GetLinearVelocity();
 
-	if (abs(velocity.x == 0))
+	if (abs(velocity.x <= 0.2f))
 		movement *= -1.0f;
 
 	velocity.x = movement;
 
-	if (velocity.x < 0.0f)
+	if (velocity.x < -0.02f)
 		dirLeft = true;
-	else if (velocity.x > 0.0f) 
+	else if (velocity.x > 0.02f) 
 		dirLeft = false;
 
 	body->SetLinearVelocity(velocity);
@@ -81,6 +81,6 @@ void Enemy::Die()
 
 bool Enemy::IsDead()
 {
-	return IsDead;
+	return isDead;
 }
 
