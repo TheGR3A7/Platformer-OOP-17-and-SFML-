@@ -20,6 +20,8 @@ sf::Music music;
 sf::Font font;
 sf::Text coinsText("Coins", font);
 sf::RectangleShape backgroundShape(sf::Vector2f(1.0f, 1.0f));
+sf::Text deadText("Dead", font);
+
 
 void Restart()
 {
@@ -68,6 +70,11 @@ void Begin()
 	coinsText.setOutlineThickness(1.0f);
 	coinsText.setScale(0.1f, 0.1f);
 
+	deadText.setFillColor(sf::Color::Red);
+	deadText.setOutlineColor(sf::Color::Black);
+	deadText.setOutlineThickness(1.0f);
+	deadText.setScale(0.3f, 0.3f);
+
 	backgroundShape.setFillColor(sf::Color(0, 0, 0, 150));
 	backgroundShape.setOrigin(0.5f, 0.5f);
 
@@ -115,6 +122,14 @@ void RenderUI(Renderer& ren)
 	coinsText.setPosition(-camera.GetViewSize() / 2.0f + sf::Vector2f(2.0f, 1.0f));
 	coinsText.setString("Coins: " + to_string(player.GetCoins()));
 	ren.target.draw(coinsText);
+
+	if (player.isDead)
+	{
+		backgroundShape.setScale(camera.GetViewSize());
+		ren.target.draw(backgroundShape);
+		deadText.setPosition(-deadText.getGlobalBounds().width / 2.0f, -deadText.getGlobalBounds().height / 2.0f);
+		ren.target.draw(deadText);
+	}
 
 	if (paused)
 	{

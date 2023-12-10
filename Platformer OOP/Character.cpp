@@ -9,6 +9,7 @@
 #include <iostream>
 #include "Game.h"
 #include "Enemy.h"
+#include "Coin.h"
 
 using namespace std;
 
@@ -148,6 +149,7 @@ void Character::OnEndContact(b2Fixture* self, b2Fixture* other)
 
 	if (groundFixture == self && data->type == FixtureDataType::MapTile && isGrounded > 0)
 		isGrounded--;
+
 }
 
 size_t Character::GetCoins()

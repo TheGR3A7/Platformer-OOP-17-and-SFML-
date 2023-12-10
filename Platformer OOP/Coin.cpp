@@ -23,6 +23,7 @@ void Coin::Begin()
 			AnimFrame(0.1f, Resources::textures["coin5.png"]),
 			AnimFrame(0.0f, Resources::textures["coin6.png"]),
 		});
+	
 
 	b2BodyDef bodyDef;
 	bodyDef.position.Set(position.x, position.y);
@@ -51,3 +52,5 @@ void Coin::Render(Renderer& ren)
 {
 	ren.Draw(animation.GetTexture(), position, sf::Vector2f(0.8f, 0.8f));
 }
+
+

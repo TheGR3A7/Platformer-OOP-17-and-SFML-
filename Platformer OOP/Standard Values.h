@@ -3,5 +3,5 @@
 using namespace std;
 
 
-constexpr int WINDOW_WIDTH = 1200;
-constexpr int WINDOW_HEIGHT = 900;
+constexpr float WINDOW_WIDTH = 1200.0f;
+constexpr float WINDOW_HEIGHT = 900.0f;

@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Audio.hpp>
 #include "Object.h"
 #include "Animation.h"
 #include "Physics.h"

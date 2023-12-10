@@ -42,7 +42,7 @@ void Enemy::Update(float deltaTime)
 	if (isDead)
 	{
 		destroyTimer += deltaTime;
-		if (destroyTimer >= 2.0f)
+		if (destroyTimer >= 1.0f)
 		{
 			Physics::world->DestroyBody(body); // пофиксилось удаление
 			DeleteObject(this);
