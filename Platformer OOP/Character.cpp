@@ -125,7 +125,15 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 		isGrounded++;
 	else if (data->type == FixtureDataType::Object && data->object->tag == "coin")
 	{
-		DeleteObject(data->object);
+		Coin* coin = dynamic_cast<Coin*>(data->object);
+		if (!coin)
+			return;
+		if (coin->IsCollected())
+			return;
+
+		coin->PlayCoinSound();
+		coin->Collected();
+		//DeleteObject(data->object);
 		cout << "coins = " << ++coins << endl;
 	}
 	else if (data->type == FixtureDataType::Object && data->object->tag == "enemy")

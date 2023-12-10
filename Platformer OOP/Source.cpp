@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 #include "Renderer.h"
+#include "Resources.h"
 #include "Standard Values.h"
 
 using namespace std;
