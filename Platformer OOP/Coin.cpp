@@ -26,10 +26,6 @@ void Coin::Begin()
             AnimFrame(0.0f, Resources::textures["coin6.png"]),
         });
 
-    coinSound.setBuffer(Resources::sounds["coin.wav"]);
-    coinSound.setVolume(50);
-
-
     b2BodyDef bodyDef;
     bodyDef.position.Set(position.x, position.y);
     body = Physics::world->CreateBody(&bodyDef);
@@ -80,8 +76,4 @@ bool Coin::IsCollected()
     return isCollected;
 }
 
-void Coin::PlayCoinSound()
-{
-    coinSound.play();
-}
 

@@ -10,7 +10,6 @@ class Coin : public Object
 private:
 	Animation animation;
 	b2Body* body;
-	sf::Sound coinSound;
 
 	float destroyTimer = 0.0f;
 	bool isCollected = false;
@@ -23,6 +22,5 @@ public:
 
 	void Collected();
 	bool IsCollected();
-	void PlayCoinSound();
 };
 

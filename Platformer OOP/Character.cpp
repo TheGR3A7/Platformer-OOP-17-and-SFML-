@@ -31,6 +31,9 @@ void Character::Begin()
 	jumpSound.setBuffer(Resources::sounds["jump.wav"]);
 	jumpSound.setVolume(50);
 
+	coinSound.setBuffer(Resources::sounds["coin.wav"]);
+	coinSound.setVolume(50);
+
 	fixtureData.listener = this;
 	fixtureData.character = this;
 	fixtureData.type = FixtureDataType::Character;
@@ -131,7 +134,7 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 		if (coin->IsCollected())
 			return;
 
-		coin->PlayCoinSound();
+		coinSound.play();
 		coin->Collected();
 		//DeleteObject(data->object);
 		cout << "coins = " << ++coins << endl;

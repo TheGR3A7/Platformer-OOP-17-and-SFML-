@@ -13,6 +13,7 @@ private:
 	Animation runAnimation;
 	sf::Texture textureToDraw;
 	sf::Sound jumpSound;
+	sf::Sound coinSound;
 
 	FixtureData fixtureData;
 	b2Body* body;
