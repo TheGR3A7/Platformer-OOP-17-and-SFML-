@@ -21,7 +21,8 @@ sf::Font font;
 sf::Text coinsText("Coins", font);
 sf::RectangleShape backgroundShape(sf::Vector2f(1.0f, 1.0f));
 sf::Text deadText("Dead", font);
-
+sf::Sprite pauseImage;
+sf::Texture pauseTexture;
 
 void Restart()
 {
@@ -80,6 +81,12 @@ void Begin()
 
 	mapImage.loadFromFile("Images/map.png");
 
+	pauseTexture = Resources::textures["pause.png"];
+	pauseImage.setTexture(pauseTexture);
+	pauseImage.setScale(0.03f, 0.03f);
+	pauseImage.setOrigin(pauseImage.getLocalBounds().width / 2.0f, pauseImage.getLocalBounds().height / 2.0f);
+	pauseImage.setPosition(camera.GetViewSize() / 2.0f);
+
 	Restart();
 }
 
@@ -135,6 +142,7 @@ void RenderUI(Renderer& ren)
 	{
 		backgroundShape.setScale(camera.GetViewSize());
 		ren.target.draw(backgroundShape);
+		ren.target.draw(pauseImage);
 	}
 }
 
