@@ -75,8 +75,8 @@ void Character::Update(float deltaTime)
 
 	runAnimation.Update(deltaTime);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-		move *= 2;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && isGrounded)
+		move *= 1.5f;
 
 	b2Vec2 velocity = body->GetLinearVelocity();
 	velocity.x = 0.0f;

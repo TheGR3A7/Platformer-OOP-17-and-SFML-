@@ -150,7 +150,7 @@ void Physics::DebugDraw(Renderer& ren)
 	{
 		debugDraw = new MyDebugDraw(ren.target);
 		//debugDraw->SetFlags(b2Draw::e_aabbBit); // рисуется граница объекта
-		debugDraw->SetFlags(b2Draw::e_shapeBit); // рисуется фигуры объекта
+		//debugDraw->SetFlags(b2Draw::e_shapeBit); // рисуется фигуры объекта
 		//debugDraw->SetFlags(b2Draw::e_centerOfMassBit); // рисуется цент масс объекта
 		world->SetDebugDraw(debugDraw);
 	}
