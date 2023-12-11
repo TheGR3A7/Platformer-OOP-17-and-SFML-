@@ -147,6 +147,7 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Snake.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +163,7 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Snake.h" />
     <ClInclude Include="Standard Values.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

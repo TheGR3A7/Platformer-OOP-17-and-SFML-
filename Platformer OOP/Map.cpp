@@ -3,6 +3,7 @@
 #include "Physics.h"
 #include "Coin.h"
 #include "Duck.h"
+#include "Snake.h"
 #include <box2d/b2_body.h>
 #include <box2d/b2_fixture.h>
 #include <box2d/b2_polygon_shape.h>
@@ -48,26 +49,30 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			sf::Color color = image.getPixel(x, y);
 			Object* object = nullptr;
 
-			if (color == sf::Color::Red)
+			if (color == sf::Color(255, 0, 0, 255))
 			{
 				characterPosition = sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
 				continue;
 			}
-			else if (color == sf::Color::Black)
+			else if (color == sf::Color(0, 0, 0, 255))
 			{
 				grid[x][y] = &Resources::textures["brick.png"];
 			}
-			else if (color == sf::Color::Blue)
+			else if (color == sf::Color(0, 0, 255, 255))
 			{
 				grid[x][y] = &Resources::textures["marble.png"];
 			}
-			else if (color == sf::Color::Yellow)
+			else if (color == sf::Color(255, 255, 0, 255))
 			{
 				object = new Coin();
 			}
-			else if (color == sf::Color::Green)
+			else if (color == sf::Color(0, 255, 0, 255))
 			{
 				object = new Duck();
+			}
+			else if (color == sf::Color(105, 71, 53, 255)) // Brown
+			{
+				object = new Snake();
 			}
 
 			if (object)
