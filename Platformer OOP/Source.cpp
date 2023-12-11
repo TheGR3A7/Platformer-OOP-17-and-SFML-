@@ -31,8 +31,9 @@ int main()
 			case sf::Event::KeyPressed:
 				switch (event.key.code)
 				{
-				case sf::Keyboard::Escape:
-					paused = !paused;
+				case sf::Keyboard::P:
+					if(!IsPlayerDead())
+						paused = !paused;
 					break;
 				}
 

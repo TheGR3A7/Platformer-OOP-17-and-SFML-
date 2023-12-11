@@ -8,7 +8,7 @@
 #include <cmath>
 #include <iostream>
 #include "Game.h"
-#include "Enemy.h"
+#include "Duck.h"
 #include "Coin.h"
 
 using namespace std;

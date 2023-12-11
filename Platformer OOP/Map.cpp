@@ -2,7 +2,7 @@
 #include "Resources.h"
 #include "Physics.h"
 #include "Coin.h"
-#include "Enemy.h"
+#include "Duck.h"
 #include <box2d/b2_body.h>
 #include <box2d/b2_fixture.h>
 #include <box2d/b2_polygon_shape.h>
@@ -67,7 +67,7 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			}
 			else if (color == sf::Color::Green)
 			{
-				object = new Enemy();
+				object = new Duck();
 			}
 
 			if (object)

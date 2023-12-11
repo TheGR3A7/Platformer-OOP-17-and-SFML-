@@ -14,3 +14,4 @@ void Render(Renderer& ren);
 void RenderUI(Renderer& ren);
 
 void DeleteObject(Object* object);
+bool IsPlayerDead();

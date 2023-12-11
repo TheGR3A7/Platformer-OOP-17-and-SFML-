@@ -155,3 +155,8 @@ void DeleteObject(Object* object)
 		objects.erase(iter);
 	}
 }
+
+bool IsPlayerDead()
+{
+	return player.isDead;
+}
