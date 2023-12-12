@@ -54,7 +54,7 @@ void Duck::Update(float deltaTime)
 
 	b2Vec2 velocity = body->GetLinearVelocity();
 
-	if (abs(velocity.x == 0.00f))
+	if (abs(velocity.x) == 0.00f)
 		movement *= -1.0f;
 
 	velocity.x = movement;

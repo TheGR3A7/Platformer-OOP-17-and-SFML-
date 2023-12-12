@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Resources.h"
 #include <box2d/b2_circle_shape.h>
+#include "Bullet.h"
 
 void Snake::Begin()
 {
@@ -37,6 +38,7 @@ void Snake::Begin()
 	body->CreateFixture(&fixtureDef);
 }
 
+
 void Snake::Update(float deltaTime)
 {
 	if (isDead)
@@ -54,7 +56,7 @@ void Snake::Update(float deltaTime)
 
 	b2Vec2 velocity = body->GetLinearVelocity();
 
-	if (abs(velocity.x == 0.00f))
+	if (abs(velocity.x) == 0.00f)
 		movement *= -1.0f;
 
 	velocity.x = movement;

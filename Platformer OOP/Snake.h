@@ -1,6 +1,8 @@
 #pragma once
 #include "Enemy.h"
 
+using namespace std;
+
 class Snake : public Enemy
 {
 private:
@@ -20,5 +22,6 @@ public:
 
 	virtual void Die() override;
 	virtual bool IsDead() override;
+
 };
 
