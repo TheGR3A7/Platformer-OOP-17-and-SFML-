@@ -8,6 +8,8 @@
 #include <box2d/b2_fixture.h>
 #include <box2d/b2_polygon_shape.h>
 #include "Trampoline.h"
+#include "Hedgehog.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -78,6 +80,10 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			else if (color == sf::Color(87, 0, 134, 255)) // Purple
 			{
 				object = new Trampoline();
+			}
+			else if (color == sf::Color(182, 12, 151, 255)) // Pink
+			{
+				object = new Hedgehog();
 			}
 
 			if (object)

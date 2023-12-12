@@ -11,6 +11,7 @@
 #include "Duck.h"
 #include "Coin.h"
 #include "Trampoline.h"
+#include "Hedgehog.h"
 
 using namespace std;
 
@@ -148,6 +149,16 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 		if (groundFixture == self)
 			enemy->Die();
 		else if(!enemy->IsDead())
+			isDead = true;
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "hedgehog")
+	{
+		Hedgehog* hedgehog = dynamic_cast<Hedgehog*>(data->object);
+		if (!hedgehog)
+			return;
+		if (hedgehog->IsSleeping() == true)
+			hedgehog->Die();
+		else if (!hedgehog->IsDead())
 			isDead = true;
 	}
 	else if (data->type == FixtureDataType::Object && data->object->tag == "trampoline")
