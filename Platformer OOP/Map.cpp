@@ -7,6 +7,7 @@
 #include <box2d/b2_body.h>
 #include <box2d/b2_fixture.h>
 #include <box2d/b2_polygon_shape.h>
+#include "Trampoline.h"
 
 using namespace std;
 
@@ -49,30 +50,34 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			sf::Color color = image.getPixel(x, y);
 			Object* object = nullptr;
 
-			if (color == sf::Color(255, 0, 0, 255))
+			if (color == sf::Color::Red)
 			{
 				characterPosition = sf::Vector2f(cellSize * x + cellSize / 2.0f, cellSize * y + cellSize / 2.0f);
 				continue;
 			}
-			else if (color == sf::Color(0, 0, 0, 255))
+			else if (color == sf::Color::Black)
 			{
 				grid[x][y] = &Resources::textures["brick.png"];
 			}
-			else if (color == sf::Color(0, 0, 255, 255))
+			else if (color == sf::Color::Blue)
 			{
 				grid[x][y] = &Resources::textures["marble.png"];
 			}
-			else if (color == sf::Color(255, 255, 0, 255))
+			else if (color == sf::Color::Yellow)
 			{
 				object = new Coin();
 			}
-			else if (color == sf::Color(0, 255, 0, 255))
+			else if (color == sf::Color::Green)
 			{
 				object = new Duck();
 			}
 			else if (color == sf::Color(105, 71, 53, 255)) // Brown
 			{
 				object = new Snake();
+			}
+			else if (color == sf::Color(87, 0, 134, 255)) // Purple
+			{
+				object = new Trampoline();
 			}
 
 			if (object)

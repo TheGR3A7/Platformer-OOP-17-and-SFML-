@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "Duck.h"
 #include "Coin.h"
+#include "Trampoline.h"
 
 using namespace std;
 
@@ -148,6 +149,20 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 			enemy->Die();
 		else if(!enemy->IsDead())
 			isDead = true;
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "trampoline")
+	{
+		Trampoline* trampoline = dynamic_cast<Trampoline*>(data->object);
+		if (!trampoline)
+			return;
+		if (groundFixture == self)
+		{
+			trampoline->Activated();
+
+			b2Vec2 jumpVelocity = body->GetLinearVelocity();
+			jumpVelocity.y = -15.0f;
+			body->SetLinearVelocity(jumpVelocity);
+		}
 	}
 }
 
