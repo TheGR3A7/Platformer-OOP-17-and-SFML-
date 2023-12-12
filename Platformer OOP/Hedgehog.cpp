@@ -16,6 +16,13 @@ void Hedgehog::Begin()
 			AnimFrame(0.15f, Resources::textures["h_walk2.png"]),
 			AnimFrame(0.00f, Resources::textures["h_walk1.png"]),
 		});
+    sleepAnimation = Animation(0.80f,
+        {
+            AnimFrame(0.60f, Resources::textures["h_sleep4.png"]),
+            AnimFrame(0.40f, Resources::textures["h_sleep3.png"]),
+            AnimFrame(0.20f, Resources::textures["h_sleep2.png"]),
+            AnimFrame(0.00f, Resources::textures["h_sleep1.png"]),
+        });
 
 	tag = "hedgehog";
 
@@ -82,7 +89,7 @@ void Hedgehog::Update(float deltaTime)
     }
     else
     {
-        textureToDraw = Resources::textures["sleep.png"];
+        textureToDraw = sleepAnimation.GetTexture();
 
         if (sleepTimer.getElapsedTime().asSeconds() > sleepDuration)
         {
@@ -92,6 +99,7 @@ void Hedgehog::Update(float deltaTime)
         {
             body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
         }
+        sleepAnimation.Update(deltaTime);
     }
 
     position = sf::Vector2f(body->GetPosition().x, body->GetPosition().y);

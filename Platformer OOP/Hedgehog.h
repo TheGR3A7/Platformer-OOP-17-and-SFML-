@@ -5,6 +5,7 @@ class Hedgehog : public Enemy
 {
 private:
 	Animation walkAnimation;
+	Animation sleepAnimation;
 	sf::Texture textureToDraw;
 	float movement = 5.0f;
 	bool dirLeft = false;
