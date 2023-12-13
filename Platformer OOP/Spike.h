@@ -1,21 +1,19 @@
 #pragma once
-#include"Object.h"
-#include "Animation.h"
+#include "Object.h"
 #include "Physics.h"
 #include <box2d/b2_body.h>
 
-class MovingPlatform : public Object
+class Spike : public Object
 {
 private:
-	Animation animation;
+	sf::Texture textureToDraw;
 	FixtureData fixtureData;
 	b2Body* body;
+	b2Vec2 velocity;
 
-	float movement = 3.0f;
 public:
 	virtual void Begin() override;
 	virtual void Update(float deltaTime) override;
 	virtual void Render(Renderer& ren) override;
 };
-
 

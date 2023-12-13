@@ -11,6 +11,8 @@
 #include "Hedgehog.h"
 #include "Game.h"
 #include "MovingPlatform.h"
+#include "Spike.h"
+
 
 using namespace std;
 
@@ -88,7 +90,7 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			}
 			else if (color == sf::Color(190, 165, 139, 255)) // Light brown
 			{
-				grid[x][y] = &Resources::textures["spike.png"];
+				object = new Spike();
 			}
 			else if (color == sf::Color(20, 20, 72, 255)) // Dark blue
 			{

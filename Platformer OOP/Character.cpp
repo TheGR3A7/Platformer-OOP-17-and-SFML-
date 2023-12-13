@@ -13,7 +13,7 @@
 #include "Trampoline.h"
 #include "Hedgehog.h"
 #include "MovingPlatform.h"
-
+#include "Spike.h"
 
 
 using namespace std;
@@ -153,6 +153,14 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 		coin->Collected();
 		//DeleteObject(data->object);
 		cout << "coins = " << ++coins << endl;
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "spike")
+	{
+		Spike* spike = dynamic_cast<Spike*>(data->object);
+		if (!spike)
+			return;
+		if (groundFixture == self)
+			isDead = true;
 	}
 	else if (data->type == FixtureDataType::Object && data->object->tag == "enemy")
 	{

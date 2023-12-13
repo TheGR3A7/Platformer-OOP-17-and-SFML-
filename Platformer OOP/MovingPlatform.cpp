@@ -5,7 +5,6 @@
 #include "Physics.h"
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
-#include <box2d/b2_collision.h>
 
 void MovingPlatform::Begin()
 {
