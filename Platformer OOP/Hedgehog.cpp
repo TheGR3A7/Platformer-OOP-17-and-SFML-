@@ -133,6 +133,8 @@ void Hedgehog::WakeUp()
 {
 	isSleeping = false;
 	walkTimer.restart();
+
+    movement *= -1.0;
 }
 
 bool Hedgehog::IsSleeping()

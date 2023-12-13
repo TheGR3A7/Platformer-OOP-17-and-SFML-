@@ -56,7 +56,7 @@ void Character::Begin()
 	circleShape.m_radius = 0.5f;
 	circleShape.m_p.Set(0.0f, -0.5f);
 	fixtureDef.shape = &circleShape;
-	body->CreateFixture(&fixtureDef);
+	body->CreateFixture(&fixtureDef); 
 
 	circleShape.m_p.Set(0.0f, 0.5f);
 	body->CreateFixture(&fixtureDef);
