@@ -150,6 +150,7 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Saw.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Spike.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Saw.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="Spike.h" />
     <ClInclude Include="Standard Values.h" />

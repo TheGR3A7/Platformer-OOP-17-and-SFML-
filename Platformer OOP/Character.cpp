@@ -14,7 +14,7 @@
 #include "Hedgehog.h"
 #include "MovingPlatform.h"
 #include "Spike.h"
-
+#include "Saw.h"
 
 using namespace std;
 
@@ -160,6 +160,14 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 		if (!spike)
 			return;
 		if (groundFixture == self)
+			isDead = true;
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "saw")
+	{
+		Saw* saw = dynamic_cast<Saw*>(data->object);
+		if (!saw)
+			return;
+		else
 			isDead = true;
 	}
 	else if (data->type == FixtureDataType::Object && data->object->tag == "enemy")

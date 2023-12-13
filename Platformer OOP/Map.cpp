@@ -12,7 +12,7 @@
 #include "Game.h"
 #include "MovingPlatform.h"
 #include "Spike.h"
-
+#include "Saw.h"
 
 using namespace std;
 
@@ -98,7 +98,7 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			}
 			else if (color == sf::Color(0, 102, 46, 255)) // Dark green
 			{
-				grid[x][y] = &Resources::textures["saw1.png"];
+				object = new Saw();
 			}
 			else if (color == sf::Color::Green)
 			{
