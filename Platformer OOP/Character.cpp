@@ -12,6 +12,9 @@
 #include "Coin.h"
 #include "Trampoline.h"
 #include "Hedgehog.h"
+#include "MovingPlatform.h"
+
+
 
 using namespace std;
 
@@ -128,6 +131,16 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 
 	if(groundFixture == self && data->type == FixtureDataType::MapTile)
 		isGrounded++;
+	if (data->type == FixtureDataType::Object && data->object->tag == "platform")
+	{
+		MovingPlatform* platform = dynamic_cast<MovingPlatform*>(data->object);
+		if (!platform)
+			return;
+		else
+		{
+			isGrounded++;
+		}
+	}
 	else if (data->type == FixtureDataType::Object && data->object->tag == "coin")
 	{
 		Coin* coin = dynamic_cast<Coin*>(data->object);
@@ -186,7 +199,8 @@ void Character::OnEndContact(b2Fixture* self, b2Fixture* other)
 
 	if (groundFixture == self && data->type == FixtureDataType::MapTile && isGrounded > 0)
 		isGrounded--;
-
+	else if (data->type == FixtureDataType::Object && data->object->tag == "platform")
+		isGrounded--;
 }
 
 size_t Character::GetCoins()

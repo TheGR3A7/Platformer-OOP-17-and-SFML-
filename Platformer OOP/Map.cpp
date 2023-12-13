@@ -10,6 +10,7 @@
 #include "Trampoline.h"
 #include "Hedgehog.h"
 #include "Game.h"
+#include "MovingPlatform.h"
 
 using namespace std;
 
@@ -65,9 +66,37 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			{
 				grid[x][y] = &Resources::textures["marble.png"];
 			}
+			else if (color == sf::Color(121, 121, 121, 255)) // Grey
+			{
+				grid[x][y] = &Resources::textures["rock.png"];
+			}
+			else if (color == sf::Color(186, 109, 0, 255)) // Orange
+			{
+				grid[x][y] = &Resources::textures["sand.png"];
+			}
+			else if (color == sf::Color(0, 255, 255, 255)) // Light blue
+			{
+				object = new MovingPlatform();
+			}
 			else if (color == sf::Color::Yellow)
 			{
 				object = new Coin();
+			}
+			else if (color == sf::Color(87, 0, 134, 255)) // Purple
+			{
+				object = new Trampoline();
+			}
+			else if (color == sf::Color(190, 165, 139, 255)) // Light brown
+			{
+				grid[x][y] = &Resources::textures["spike.png"];
+			}
+			else if (color == sf::Color(20, 20, 72, 255)) // Dark blue
+			{
+				grid[x][y] = &Resources::textures["button1.png"];
+			}
+			else if (color == sf::Color(0, 102, 46, 255)) // Dark green
+			{
+				grid[x][y] = &Resources::textures["saw1.png"];
 			}
 			else if (color == sf::Color::Green)
 			{
@@ -77,14 +106,11 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			{
 				object = new Snake();
 			}
-			else if (color == sf::Color(87, 0, 134, 255)) // Purple
-			{
-				object = new Trampoline();
-			}
 			else if (color == sf::Color(182, 12, 151, 255)) // Pink
 			{
 				object = new Hedgehog();
 			}
+
 
 			if (object)
 			{
