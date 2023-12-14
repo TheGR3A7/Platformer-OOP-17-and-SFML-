@@ -15,7 +15,7 @@
 #include "MovingPlatform.h"
 #include "Spike.h"
 #include "Saw.h"
-#include "Button.h"
+#include "Flag.h"
 
 using namespace std;
 
@@ -205,17 +205,12 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 			body->SetLinearVelocity(jumpVelocity);
 		}
 	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "button")
+	else if (data->type == FixtureDataType::Object && data->object->tag == "flag")
 	{
-		Button* button = dynamic_cast<Button*>(data->object);
-		if (!button)
+		Flag* flag = dynamic_cast<Flag*>(data->object);
+		if (!flag)
 			return;
-		else
-			isGrounded++;
-		if (groundFixture == self)
-		{
-			button->Activated();
-		}
+		// добавить переход
 	}
 }
 

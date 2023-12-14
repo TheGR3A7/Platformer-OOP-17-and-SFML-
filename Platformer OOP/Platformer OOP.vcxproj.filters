@@ -75,7 +75,7 @@
     <ClCompile Include="Saw.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
+    <ClCompile Include="Flag.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,7 +140,7 @@
     <ClInclude Include="Saw.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
+    <ClInclude Include="Flag.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

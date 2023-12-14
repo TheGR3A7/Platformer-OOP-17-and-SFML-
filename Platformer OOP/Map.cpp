@@ -13,7 +13,7 @@
 #include "MovingPlatform.h"
 #include "Spike.h"
 #include "Saw.h"
-#include "Button.h"
+#include "Flag.h"
 
 using namespace std;
 
@@ -95,7 +95,7 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			}
 			else if (color == sf::Color(20, 20, 72, 255)) // Dark blue
 			{
-				object = new Button();
+				object = new Flag();
 			}
 			else if (color == sf::Color(0, 102, 46, 255)) // Dark green
 			{
