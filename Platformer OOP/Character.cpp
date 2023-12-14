@@ -15,6 +15,7 @@
 #include "MovingPlatform.h"
 #include "Spike.h"
 #include "Saw.h"
+#include "Button.h"
 
 using namespace std;
 
@@ -204,6 +205,18 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 			body->SetLinearVelocity(jumpVelocity);
 		}
 	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "button")
+	{
+		Button* button = dynamic_cast<Button*>(data->object);
+		if (!button)
+			return;
+		else
+			isGrounded++;
+		if (groundFixture == self)
+		{
+			button->Activated();
+		}
+	}
 }
 
 void Character::OnEndContact(b2Fixture* self, b2Fixture* other)
@@ -216,6 +229,8 @@ void Character::OnEndContact(b2Fixture* self, b2Fixture* other)
 	if (groundFixture == self && data->type == FixtureDataType::MapTile && isGrounded > 0)
 		isGrounded--;
 	else if (data->type == FixtureDataType::Object && data->object->tag == "platform")
+		isGrounded--;
+	else if (data->type == FixtureDataType::Object && data->object->tag == "button")
 		isGrounded--;
 }
 

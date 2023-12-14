@@ -13,6 +13,7 @@
 #include "MovingPlatform.h"
 #include "Spike.h"
 #include "Saw.h"
+#include "Button.h"
 
 using namespace std;
 
@@ -94,7 +95,7 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			}
 			else if (color == sf::Color(20, 20, 72, 255)) // Dark blue
 			{
-				grid[x][y] = &Resources::textures["button1.png"];
+				object = new Button();
 			}
 			else if (color == sf::Color(0, 102, 46, 255)) // Dark green
 			{
