@@ -21,26 +21,6 @@ Map::Map(float cellSize) : cellSize(cellSize), grid()
 {
 }
 
-
-void Map::CreateChekerboard(size_t width, size_t height)
-{
-	grid = vector(width, vector(height, (sf::Texture*)nullptr));
-
-	bool last = 0;
-
-	for (auto& column : grid)
-	{
-		for (auto& cell : column)
-		{
-			last = !last;
-			if (last)
-				cell = &Resources::textures["brick.png"];
-		}
-		if (width % 2 == 0)
-			last = !last;
-	}
-}
-
 sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objects)
 {
 	objects.clear();

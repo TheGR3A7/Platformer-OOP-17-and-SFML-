@@ -2,7 +2,6 @@
 #include <box2d/b2_world.h>
 #include <box2d/b2_fixture.h>
 #include "Renderer.h"
-#include "Bullet.h"
 
 class MyDebugDraw;
 class Object;

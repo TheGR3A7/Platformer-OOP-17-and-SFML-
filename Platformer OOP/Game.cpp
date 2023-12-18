@@ -90,10 +90,11 @@ void Begin()
 	Restart();
 }
 
+
 void Update(float deltaTime)
 {
 	if (player.isDead && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
-			Restart();
+		Restart();
 	if (player.isDead || paused)
 		return;
 

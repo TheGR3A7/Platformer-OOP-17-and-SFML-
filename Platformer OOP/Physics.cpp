@@ -134,7 +134,7 @@ void Physics::Init()
 	if (world)
 		delete world;
 
-	world = new b2World(b2Vec2(0.0f, 9.8f));
+	world = new b2World(b2Vec2(0.0f, 14.0f));
 	world->SetDebugDraw(debugDraw);
 }
 

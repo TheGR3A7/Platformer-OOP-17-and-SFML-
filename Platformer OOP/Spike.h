@@ -9,7 +9,6 @@ private:
 	sf::Texture textureToDraw;
 	FixtureData fixtureData;
 	b2Body* body;
-	b2Vec2 velocity;
 
 public:
 	virtual void Begin() override;
