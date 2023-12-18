@@ -4,6 +4,7 @@
 #include "Resources.h"
 #include "Physics.h"
 #include <box2d/b2_circle_shape.h>
+#include "Game.h"
 
 void Saw::Begin()
 {
@@ -61,5 +62,10 @@ void Saw::Update(float deltaTime)
 void Saw::Render(Renderer& ren)
 {
 	ren.Draw(animation.GetTexture(), position, sf::Vector2f(2.0f, 2.0f), angle);
+}
+
+void Saw::OnContact(b2Fixture* self, b2Fixture* other)
+{
+	player.isDead = true;
 }
 

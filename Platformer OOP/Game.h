@@ -7,6 +7,7 @@
 
 extern Camera camera;
 extern bool paused;
+extern Character player;
 
 void Begin();
 void Update(float deltaTime);

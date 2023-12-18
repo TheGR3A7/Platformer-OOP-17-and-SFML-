@@ -130,87 +130,63 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 	if (!data)
 		return;
 
-	if(groundFixture == self && data->type == FixtureDataType::MapTile)
+	if(groundFixture == self && data->type == FixtureDataType::MapTile) // +
 		isGrounded++;
-	if (data->type == FixtureDataType::Object && data->object->tag == "platform")
+	if (data->type == FixtureDataType::Object && data->object->tag == "platform") // +
 	{
 		MovingPlatform* platform = dynamic_cast<MovingPlatform*>(data->object);
 		if (!platform)
 			return;
 		else
-		{
-			isGrounded++;
-		}
+			platform->OnContact(self, other);
 	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "coin")
+	else if (data->type == FixtureDataType::Object && data->object->tag == "coin") //         ?
 	{
 		Coin* coin = dynamic_cast<Coin*>(data->object);
 		if (!coin)
 			return;
-		if (coin->IsCollected())
-			return;
-
-		coinSound.play();
-		coin->Collected();
-		//DeleteObject(data->object);
-		cout << "coins = " << ++coins << endl;
+		else
+			coin->OnContact(self, other);
 	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "spike")
+	else if (data->type == FixtureDataType::Object && data->object->tag == "spike") // +
 	{
 		Spike* spike = dynamic_cast<Spike*>(data->object);
 		if (!spike)
 			return;
-		if (groundFixture == self)
-			isDead = true;
+		else
+			spike->OnContact(self, other);
 	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "saw")
+	else if (data->type == FixtureDataType::Object && data->object->tag == "saw") // +
 	{
 		Saw* saw = dynamic_cast<Saw*>(data->object);
 		if (!saw)
 			return;
 		else
-			isDead = true;
+			saw->OnContact(self, other);
 	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "enemy")
-	{
-		Enemy* enemy = dynamic_cast<Enemy*>(data->object);
-		if (!enemy)
-			return;
-		if (groundFixture == self)
-			enemy->Die();
-		else if(!enemy->IsDead())
-			isDead = true;
-	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "hedgehog")
+	else if (data->type == FixtureDataType::Object && data->object->tag == "hedgehog") // +
 	{
 		Hedgehog* hedgehog = dynamic_cast<Hedgehog*>(data->object);
 		if (!hedgehog)
 			return;
-		if (hedgehog->IsSleeping() == true)
-			hedgehog->Die();
-		else if (!hedgehog->IsDead())
-			isDead = true;
+		else
+			hedgehog->OnContact(self, other);
 	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "trampoline")
+	else if (data->type == FixtureDataType::Object && data->object->tag == "trampoline") // +
 	{
 		Trampoline* trampoline = dynamic_cast<Trampoline*>(data->object);
 		if (!trampoline)
 			return;
-		if (groundFixture == self)
-		{
-			trampoline->Activated();
-
-			b2Vec2 jumpVelocity = body->GetLinearVelocity();
-			jumpVelocity.y = -15.0f;
-			body->SetLinearVelocity(jumpVelocity);
-		}
+		else
+			trampoline->OnContact(self, other);
 	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "flag")
+	else if (data->type == FixtureDataType::Object && data->object->tag == "flag") // +
 	{
 		Flag* flag = dynamic_cast<Flag*>(data->object);
 		if (!flag)
 			return;
-		// добавить переход
+		else
+			flag->OnContact(self, other);
 	}
 }
 

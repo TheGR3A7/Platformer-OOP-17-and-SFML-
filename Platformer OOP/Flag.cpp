@@ -54,3 +54,8 @@ void Flag::Render(Renderer& ren)
 {
 	ren.Draw(activeAnimation.GetTexture(), sf::Vector2f(position.x, position.y - 1.0f), sf::Vector2f(1.0f, 3.0f), angle);
 }
+
+void Flag::OnContact(b2Fixture* self, b2Fixture* other)
+{
+	// добавить переход
+}

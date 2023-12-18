@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "Character.h"
 
 class Hedgehog : public Enemy
 {
@@ -29,6 +30,7 @@ public:
 
 	virtual void Die() override;
 	virtual bool IsDead() override;
+	virtual void OnContact(b2Fixture* self, b2Fixture* other) override;
 
 	bool IsSleeping();
 	void Sleep();

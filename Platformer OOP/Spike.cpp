@@ -5,6 +5,7 @@
 #include "Physics.h"
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
+#include "Game.h"
 
 void Spike::Begin()
 {
@@ -39,4 +40,10 @@ void Spike::Update(float deltaTime)
 void Spike::Render(Renderer& ren)
 {
 	ren.Draw(Resources::textures["spike.png"], sf::Vector2f(position.x, position.y + 0.2f), sf::Vector2f(0.8f, 0.8f), angle);
+}
+
+void Spike::OnContact(b2Fixture* self, b2Fixture* other)
+{
+	if (player.groundFixture == self)
+		player.isDead = true;
 }

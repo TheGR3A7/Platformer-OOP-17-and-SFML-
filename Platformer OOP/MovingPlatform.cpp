@@ -5,6 +5,7 @@
 #include "Physics.h"
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
+#include "Game.h"
 
 void MovingPlatform::Begin()
 {
@@ -59,6 +60,11 @@ void MovingPlatform::Update(float deltaTime)
 void MovingPlatform::Render(Renderer& ren)
 {
 	ren.Draw(animation.GetTexture(), position, sf::Vector2f(2.0f, 1.0f), angle);
+}
+
+void MovingPlatform::OnContact(b2Fixture* self, b2Fixture* other)
+{
+	player.isGrounded++;
 }
 
 

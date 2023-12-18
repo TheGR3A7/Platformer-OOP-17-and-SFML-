@@ -123,6 +123,14 @@ bool Hedgehog::IsDead()
 	return isDead;
 }
 
+void Hedgehog::OnContact(b2Fixture* self, b2Fixture* other)
+{
+    if (IsSleeping() == true)
+    	Die();
+    else if (!IsDead())
+    	player.isDead = true;
+}
+
 void Hedgehog::Sleep()
 {
 	isSleeping = true;

@@ -3,7 +3,7 @@
 #include "Physics.h"
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
-
+#include <iostream>
 #include "Game.h"
 
 
@@ -66,7 +66,18 @@ void Coin::Render(Renderer& ren)
 	ren.Draw(animation.GetTexture(), position, sf::Vector2f(0.8f, 0.8f));
 }
 
-void Coin::Collected() 
+void Coin::OnContact(b2Fixture* self, b2Fixture* other)
+{
+    if (IsCollected())
+        return;
+
+    player.coinSound.play();
+    Collected();
+    //DeleteObject(data->object);
+    cout << "coins = " << ++player.coins << endl;
+}
+
+void Coin::Collected()
 {
     isCollected = true;
 }

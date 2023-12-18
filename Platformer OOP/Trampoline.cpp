@@ -3,6 +3,7 @@
 #include "Physics.h"
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
+#include "Game.h"
 
 void Trampoline::Begin() 
 {
@@ -60,6 +61,17 @@ void Trampoline::Update(float deltaTime)
 void Trampoline::Render(Renderer& ren)
 {
 	ren.Draw(textureToDraw, position, sf::Vector2f(1.0f, 1.0f), angle);
+}
+
+void Trampoline::OnContact(b2Fixture* self, b2Fixture* other)
+{
+	if (player.groundFixture == self)
+	{
+		Activated();
+		b2Vec2 jumpVelocity = player.body->GetLinearVelocity();
+		jumpVelocity.y = -17.0f;
+		player.body->SetLinearVelocity(jumpVelocity);
+	}
 }
 
 void Trampoline::Activated()

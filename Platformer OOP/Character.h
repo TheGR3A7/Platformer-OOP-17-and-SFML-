@@ -13,17 +13,20 @@ private:
 	Animation runAnimation;
 	sf::Texture textureToDraw;
 	sf::Sound jumpSound;
-	sf::Sound coinSound;
 
 	FixtureData fixtureData;
-	b2Body* body;
-	b2Fixture* groundFixture;
-
-	size_t isGrounded; // bool плохо работал
 	bool dirLeft = false;
 
-	size_t coins;
 public:
+	//
+	sf::Sound coinSound;
+	b2Body* body;
+
+	size_t isGrounded; // bool плохо работал
+	b2Fixture* groundFixture;
+	size_t coins;
+
+	//
 	sf::Vector2f position;
 	float angle;
 	bool isDead;
