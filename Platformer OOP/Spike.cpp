@@ -44,6 +44,6 @@ void Spike::Render(Renderer& ren)
 
 void Spike::OnContact(b2Fixture* self, b2Fixture* other)
 {
-	if (player.groundFixture == self)
+	if (player.GetGroundFixture() == self)
 		player.isDead = true;
 }

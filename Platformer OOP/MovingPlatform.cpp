@@ -64,7 +64,7 @@ void MovingPlatform::Render(Renderer& ren)
 
 void MovingPlatform::OnContact(b2Fixture* self, b2Fixture* other)
 {
-	player.isGrounded++;
+	player.IncreaseGrounded();
 }
 
 

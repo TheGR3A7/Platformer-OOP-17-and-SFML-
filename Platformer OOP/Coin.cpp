@@ -71,10 +71,11 @@ void Coin::OnContact(b2Fixture* self, b2Fixture* other)
     if (IsCollected())
         return;
 
-    player.coinSound.play();
+    player.PlayCoinSound();
     Collected();
+    player.IncreaseCoins();
     //DeleteObject(data->object);
-    cout << "coins = " << ++player.coins << endl;
+    cout << "coins = " << player.GetCoins() << endl;
 }
 
 void Coin::Collected()

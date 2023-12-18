@@ -1,9 +1,8 @@
 #pragma once
-
 #include "Animation.h"
 #include "Object.h"
 #include "Physics.h"
-
+#include "Character.h"
 
 class Enemy : public Object
 {
@@ -14,5 +13,6 @@ public:
     virtual void Render(Renderer& ren) = 0;
     virtual void Die() = 0;
     virtual bool IsDead() = 0;
+    virtual void OnContact(b2Fixture* self, b2Fixture* other);
 };
 

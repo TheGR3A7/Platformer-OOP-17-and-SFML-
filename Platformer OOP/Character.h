@@ -13,20 +13,17 @@ private:
 	Animation runAnimation;
 	sf::Texture textureToDraw;
 	sf::Sound jumpSound;
-
-	FixtureData fixtureData;
-	bool dirLeft = false;
-
-public:
-	//
 	sf::Sound coinSound;
+
+
 	b2Body* body;
-
-	size_t isGrounded; // bool плохо работал
 	b2Fixture* groundFixture;
-	size_t coins;
+	FixtureData fixtureData;
 
-	//
+	bool dirLeft = false;
+	size_t isGrounded; // bool плохо работал
+	size_t coins;
+public:
 	sf::Vector2f position;
 	float angle;
 	bool isDead;
@@ -36,6 +33,13 @@ public:
 	void Begin();
 	void Update(float deltaTime);
 	void Draw(Renderer& ren);
+
+	void IncreaseCoins();
+	void IncreaseGrounded();
+	void PlayCoinSound();
+	b2Body* GetBody();
+	b2Fixture* GetGroundFixture();
+
 
 	// ”наследовано через ContactListener
 	virtual void OnBeginContact(b2Fixture* self, b2Fixture* other) override;

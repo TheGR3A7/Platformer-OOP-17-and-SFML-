@@ -123,6 +123,31 @@ void Character::Draw(Renderer& ren)
 	ren.Draw(textureToDraw, position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, 2.0f), angle); // типо Перс 1 метр ростом и 1 метр в ширину(мы теперь делем исходные данные на 16)
 }
 
+void Character::IncreaseCoins()
+{
+	++coins;
+}
+
+void Character::IncreaseGrounded()
+{
+	isGrounded++;
+}
+
+void Character::PlayCoinSound()
+{
+	coinSound.play();
+}
+
+b2Body* Character::GetBody()
+{
+	return body;
+}
+
+b2Fixture* Character::GetGroundFixture()
+{
+	return 	groundFixture;
+}
+
 void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 {
 	FixtureData* data = (FixtureData*)other->GetUserData().pointer;
@@ -140,7 +165,7 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 		else
 			platform->OnContact(self, other);
 	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "coin") //         ?
+	else if (data->type == FixtureDataType::Object && data->object->tag == "coin") // 
 	{
 		Coin* coin = dynamic_cast<Coin*>(data->object);
 		if (!coin)
@@ -163,6 +188,14 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 			return;
 		else
 			saw->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "enemy")
+	{
+		Enemy* enemy = dynamic_cast<Enemy*>(data->object);
+		if (!enemy)
+			return;
+		else
+			enemy->OnContact(self, other);
 	}
 	else if (data->type == FixtureDataType::Object && data->object->tag == "hedgehog") // +
 	{
