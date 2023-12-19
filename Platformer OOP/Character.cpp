@@ -189,7 +189,7 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 		else
 			saw->OnContact(self, other);
 	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "enemy")
+	else if (data->type == FixtureDataType::Object && data->object->tag == "enemy") // +  
 	{
 		Enemy* enemy = dynamic_cast<Enemy*>(data->object);
 		if (!enemy)

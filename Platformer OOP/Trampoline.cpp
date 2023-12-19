@@ -48,10 +48,16 @@ void Trampoline::Update(float deltaTime)
 	{
 		textureToDraw = activeAnimation.GetTexture();
 
-		if (activationTimer.getElapsedTime().asSeconds() > activationDuration)
+		activationTimer += deltaTime;
+
+		if (activationTimer >= activationDuration)
 		{
 			Deactivate();
 		}
+		//if (activationTimer.getElapsedTime().asSeconds() > activationDuration)
+		//{
+		//	Deactivate();
+		//}
 	}
 
 	activeAnimation.Update(deltaTime);
@@ -77,7 +83,7 @@ void Trampoline::OnContact(b2Fixture* self, b2Fixture* other)
 void Trampoline::Activated()
 {
 	isActivated = true;
-	activationTimer.restart(); 
+	activationTimer = 0.0f;
 }
 
 void Trampoline::Deactivate()

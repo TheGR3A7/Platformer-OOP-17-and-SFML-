@@ -65,8 +65,9 @@ void Hedgehog::Update(float deltaTime)
     {
         textureToDraw = walkAnimation.GetTexture();
 
+        walkTimer += deltaTime;
 
-        if (walkTimer.getElapsedTime().asSeconds() > walkDuration)
+        if (walkTimer >= walkDuration)
         {
             Sleep();
         }
@@ -91,10 +92,13 @@ void Hedgehog::Update(float deltaTime)
     {
         textureToDraw = sleepAnimation.GetTexture();
 
-        if (sleepTimer.getElapsedTime().asSeconds() > sleepDuration)
+        sleepTimer += deltaTime;
+
+        if (sleepTimer >= sleepDuration)
         {
             WakeUp();
         }
+
         else
         {
             body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
@@ -134,13 +138,13 @@ void Hedgehog::OnContact(b2Fixture* self, b2Fixture* other)
 void Hedgehog::Sleep()
 {
 	isSleeping = true;
-	sleepTimer.restart();
+    sleepTimer = 0.0f;
 }
 
 void Hedgehog::WakeUp()
 {
 	isSleeping = false;
-	walkTimer.restart();
+    walkTimer = 0.0f;
 
     movement *= -1.0;
 }

@@ -17,10 +17,10 @@ private:
 	FixtureData fixtureData;
 	b2Body* body;
 
-	sf::Clock sleepTimer;
+	float sleepTimer = 0.0f;
+	float walkTimer = 0.0f;
 	bool isSleeping = false;
 	float sleepDuration = 2.0f;
-	sf::Clock walkTimer;
 	float walkDuration = 4.0f;
 
 public:

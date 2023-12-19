@@ -13,7 +13,8 @@ private:
 	FixtureData fixtureData;
 	b2Body* body;
 
-	sf::Clock activationTimer; 
+	//sf::Clock activationTimer; 
+	float activationTimer = 0.0f;
 	float activationDuration = 0.5f; 
 
 	bool isActivated = false;
