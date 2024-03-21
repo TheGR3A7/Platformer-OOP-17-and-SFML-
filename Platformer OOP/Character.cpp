@@ -1,53 +1,79 @@
 #define _USE_MATH_DEFINES
 #include "Character.h"
 #include "Resources.h"
+#include "Object.h"
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_circle_shape.h>
 #include <box2d/b2_fixture.h>
 #include <cmath>
+#include <iostream>
+#include "Game.h"
+#include "Duck.h"
+#include "Coin.h"
+#include "Trampoline.h"
+#include "Hedgehog.h"
+#include "MovingPlatform.h"
+#include "Spike.h"
+#include "Saw.h"
+#include "Flag.h"
+#include "Jumping.h"
 
+using namespace std;
 
 const float movementSpeed = 7.0f;
-const float jumpVelocity = 10.0f;
+float jumpVelocity = 15.0f;
 
 void Character::Begin()
 {
-	runAnimation = Animation(0.45f,
+	runAnimation = Animation(0.72f,
 		{
-			AnimFrame(0.30f, Resources::textures["sand.png"]),
-			AnimFrame(0.15f, Resources::textures["brick.png"]),
-			AnimFrame(0.00f, Resources::textures["brick2.png"]),
+			AnimFrame(0.60f, Resources::textures["run6.png"]),
+			AnimFrame(0.48f, Resources::textures["run5.png"]),
+			AnimFrame(0.36f, Resources::textures["run4.png"]),
+			AnimFrame(0.24f, Resources::textures["run3.png"]),
+			AnimFrame(0.12f, Resources::textures["run2.png"]),
+			AnimFrame(0.00f, Resources::textures["run1.png"]),
 		});
+
+	jumpSound.setBuffer(Resources::sounds["jump.wav"]);
+	jumpSound.setVolume(50);
+
+	coinSound.setBuffer(Resources::sounds["coin.wav"]);
+	coinSound.setVolume(50);
+
+	fixtureData.listener = this;
+	fixtureData.character = this;
+	fixtureData.type = FixtureDataType::Character;
 
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(position.x, position.y);
 	bodyDef.fixedRotation = true; // убирает вращение персонажа
-	body = Physics::world.CreateBody(&bodyDef);
+	body = Physics::world->CreateBody(&bodyDef);
 
 
 	b2FixtureDef fixtureDef;
-	fixtureDef.density = 1.0f; // плотность
+	fixtureDef.userData.pointer = (uintptr_t)&fixtureData; //приведение указателя к беззнаковому целочисленному типу для сохранения указателя на объект 
+	fixtureDef.density = 1.0f; 
 	fixtureDef.friction = 0.0f; // трение
 
 	b2CircleShape circleShape;
 	circleShape.m_radius = 0.5f;
-	circleShape.m_p.Set(0.0f, 0.0f);
+	circleShape.m_p.Set(0.0f, -0.5f);
 	fixtureDef.shape = &circleShape;
+	body->CreateFixture(&fixtureDef); 
+
+	circleShape.m_p.Set(0.0f, 0.5f);
 	body->CreateFixture(&fixtureDef);
 
-	//circleShape.m_p.Set(0.0f, 0.25f);
-	//body->CreateFixture(&fixtureDef);
-
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.5f, 0.25f);
+	polygonShape.SetAsBox(0.5f, 0.5f);
 	fixtureDef.shape = &polygonShape;// фигура
 	body->CreateFixture(&fixtureDef);
 
-	polygonShape.SetAsBox(0.4f, 0.2f, b2Vec2(0.0f, 0.5f), 0.0f);
-	fixtureDef.userData.pointer = (uintptr_t)this; //приведение указателя к беззнаковому целочисленному типу для сохранения указателя на объект 
+	polygonShape.SetAsBox(0.4f, 0.2f, b2Vec2(0.0f, 1.0f), 0.0f);
 	fixtureDef.isSensor = true;
-	body->CreateFixture(&fixtureDef);
+	groundFixture = body->CreateFixture(&fixtureDef);
 }
 
 void Character::Update(float deltaTime)
@@ -56,8 +82,8 @@ void Character::Update(float deltaTime)
 
 	runAnimation.Update(deltaTime);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-		move *= 2;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && isGrounded)
+		move *= 1.5f;
 
 	b2Vec2 velocity = body->GetLinearVelocity();
 	velocity.x = 0.0f;
@@ -67,22 +93,24 @@ void Character::Update(float deltaTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		velocity.x -= move;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isGrounded)
-		velocity.y -= jumpVelocity;
-
+	{
+		velocity.y = -jumpVelocity;
+		jumpSound.play();
+	}
 
 	textureToDraw = runAnimation.GetTexture();
 
-	if (velocity.x < 0.0f)
+	if (velocity.x < -0.02f)
 		dirLeft = true;
-	else if (velocity.x > 0.0f) // else if потому что если == 0, то он не должен менять сторону, при просто else это не учтется
+	else if (velocity.x > 0.02f) // else if потому что если == 0, то он не должен менять сторону, при просто else это не учтется
 		dirLeft = false;
 	else
-		textureToDraw = Resources::textures["hero.png"];
+		textureToDraw = Resources::textures["idle1.png"];
 
 
 	if (!isGrounded)
-		textureToDraw = Resources::textures["jump.png"];
-
+		textureToDraw = Resources::textures["jump1.png"];
+			
 
 	body->SetLinearVelocity(velocity);
 
@@ -93,16 +121,148 @@ void Character::Update(float deltaTime)
 
 void Character::Draw(Renderer& ren)
 {
-	ren.Draw(textureToDraw, position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, 1.0f), angle); // типо Перс 1 метр ростом и 1 метр в ширину(мы теперь делем исходные данные на 16)
+	ren.Draw(textureToDraw, position, sf::Vector2f(dirLeft ? -1.0f : 1.0f, 2.0f), angle); // типо Перс 1 метр ростом и 1 метр в ширину(мы теперь делем исходные данные на 16)
 }
 
-void Character::OnBeginContact()
+void Character::IncreaseCoins()
+{
+	++coins;
+}
+
+void Character::IncreaseGrounded()
 {
 	isGrounded++;
 }
 
-void Character::OnEndContact()
+void Character::DecreaseGrounded()
 {
-	if (isGrounded > 0)
+	isGrounded--;
+}
+
+void Character::PlayCoinSound()
+{
+	coinSound.play();
+}
+
+b2Body* Character::GetBody()
+{
+	return body;
+}
+
+b2Fixture* Character::GetGroundFixture()
+{
+	return 	groundFixture;
+}
+
+float Character::GetJumpVelocity()
+{
+	return jumpVelocity;
+}
+
+void Character::SetJumpVelocity(float jump)
+{
+	jumpVelocity = jump;
+}
+
+void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
+{
+	FixtureData* data = (FixtureData*)other->GetUserData().pointer;
+
+	if (!data)
+		return;
+
+	if(groundFixture == self && data->type == FixtureDataType::MapTile) // +
+		isGrounded++;
+	if (data->type == FixtureDataType::Object && data->object->tag == "platform") // +
+	{
+		MovingPlatform* platform = dynamic_cast<MovingPlatform*>(data->object);
+		if (!platform)
+			return;
+		else
+			platform->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "coin") // +
+	{
+		Coin* coin = dynamic_cast<Coin*>(data->object);
+		if (!coin)
+			return;
+		else
+			coin->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "jumping") // +
+	{
+		Jumping* jumping = dynamic_cast<Jumping*>(data->object);
+		if (!jumping)
+			return;
+		else
+			jumping->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "spike") // +
+	{
+		Spike* spike = dynamic_cast<Spike*>(data->object);
+		if (!spike)
+			return;
+		else
+			spike->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "saw") // +
+	{
+		Saw* saw = dynamic_cast<Saw*>(data->object);
+		if (!saw)
+			return;
+		else
+			saw->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "enemy") // +  
+	{
+		Enemy* enemy = dynamic_cast<Enemy*>(data->object);
+		if (!enemy)
+			return;
+		else
+			enemy->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "hedgehog") // +
+	{
+		Hedgehog* hedgehog = dynamic_cast<Hedgehog*>(data->object);
+		if (!hedgehog)
+			return;
+		else
+			hedgehog->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "trampoline") // +
+	{
+		Trampoline* trampoline = dynamic_cast<Trampoline*>(data->object);
+		if (!trampoline)
+			return;
+		else
+			trampoline->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "flag") // +
+	{
+		Flag* flag = dynamic_cast<Flag*>(data->object);
+		if (!flag)
+			return;
+		else
+			flag->OnContact(self, other);
+	}
+}
+
+void Character::OnEndContact(b2Fixture* self, b2Fixture* other)
+{
+	FixtureData* data = (FixtureData*)other->GetUserData().pointer;
+
+	if (!data)
+		return;
+
+	if (groundFixture == self && data->type == FixtureDataType::MapTile  && isGrounded > 0)
 		isGrounded--;
+	else if (data->type == FixtureDataType::Object && data->object->tag == "platform")
+		isGrounded--;
+	else if (data->type == FixtureDataType::Object && data->object->tag == "flag")
+		isGrounded--;
+}
+
+size_t Character::GetCoins()
+{
+	return coins;
 }
