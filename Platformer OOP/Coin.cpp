@@ -49,12 +49,8 @@ void Coin::Update(float deltaTime)
 {
     if (isCollected)
     {
-        destroyTimer += deltaTime;
-        if (destroyTimer >= 0.1f)
-        {
-            Physics::world->DestroyBody(body); // пофиксилось удаление
-            DeleteObject(this);
-        }
+        Physics::world->DestroyBody(body); // пофиксилось удаление
+        DeleteObject(this);
         return;
     }
 

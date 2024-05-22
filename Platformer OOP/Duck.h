@@ -8,7 +8,6 @@ private:
 	float movement = 5.0f;
 	bool dirLeft = false;
 
-	float destroyTimer = 0.0f;
 	bool isDead = false;
 
 	FixtureData fixtureData;

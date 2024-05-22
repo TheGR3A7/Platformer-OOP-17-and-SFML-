@@ -4,7 +4,6 @@
 #include "Game.h"
 #include "Resources.h"
 #include <box2d/b2_circle_shape.h>
-#include "Bullet.h"
 
 void Snake::Begin()
 {
@@ -43,12 +42,8 @@ void Snake::Update(float deltaTime)
 {
 	if (isDead)
 	{
-		destroyTimer += deltaTime;
-		if (destroyTimer >= 1.0f)
-		{
-			Physics::world->DestroyBody(body); // пофиксилось удаление
-			DeleteObject(this);
-		}
+		Physics::world->DestroyBody(body); // пофиксилось удаление
+		DeleteObject(this);
 		return;
 	}
 
@@ -70,12 +65,15 @@ void Snake::Update(float deltaTime)
 
 	position = sf::Vector2f(body->GetPosition().x, body->GetPosition().y);
 	angle = body->GetAngle() * (180.0f / M_PI);
+
 }
 
 void Snake::Render(Renderer& ren)
 {
 	ren.Draw(animation.GetTexture(), !isDead ? position : sf::Vector2f(position.x, position.y + 0.35f), sf::Vector2f(dirLeft ? -1.0f : 1.0f, isDead ? 0.4f : 1.0f), angle);
 }
+
+
 
 void Snake::Die()
 {
@@ -87,3 +85,6 @@ bool Snake::IsDead()
 {
 	return isDead;
 }
+
+
+

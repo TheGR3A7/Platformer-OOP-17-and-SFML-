@@ -134,7 +134,7 @@ void Physics::Init()
 	if (world)
 		delete world;
 
-	world = new b2World(b2Vec2(0.0f, 14.0f));
+	world = new b2World(b2Vec2(0.0f, 30.0f));
 	world->SetDebugDraw(debugDraw);
 }
 
@@ -150,7 +150,7 @@ void Physics::DebugDraw(Renderer& ren)
 	{
 		debugDraw = new MyDebugDraw(ren.target);
 		//debugDraw->SetFlags(b2Draw::e_aabbBit); // рисуется граница объекта
-		debugDraw->SetFlags(b2Draw::e_shapeBit); // рисуется фигуры объекта
+		//debugDraw->SetFlags(b2Draw::e_shapeBit); // рисуется фигуры объекта
 		//debugDraw->SetFlags(b2Draw::e_centerOfMassBit); // рисуется цент масс объекта
 		world->SetDebugDraw(debugDraw);
 	}

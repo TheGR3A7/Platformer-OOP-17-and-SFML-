@@ -14,6 +14,10 @@
 #include "Spike.h"
 #include "Saw.h"
 #include "Flag.h"
+#include "Jumping.h"
+#include "Shield.h"
+#include "Marble.h"
+#include "Sand.h"
 
 using namespace std;
 
@@ -47,7 +51,8 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			}
 			else if (color == sf::Color::Blue)
 			{
-				grid[x][y] = &Resources::textures["marble.png"];
+				object = new Marble();
+				//grid[x][y] = &Resources::textures["marble.png"];
 			}
 			else if (color == sf::Color(121, 121, 121, 255)) // Grey
 			{
@@ -55,7 +60,8 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			}
 			else if (color == sf::Color(186, 109, 0, 255)) // Orange
 			{
-				grid[x][y] = &Resources::textures["sand.png"];
+				object = new Sand();
+				//grid[x][y] = &Resources::textures["sand.png"];
 			}
 			else if (color == sf::Color(0, 255, 255, 255)) // Light blue
 			{
@@ -64,6 +70,14 @@ sf::Vector2f Map::CreateFromImage(const sf::Image& image, vector<Object*> &objec
 			else if (color == sf::Color::Yellow)
 			{
 				object = new Coin();
+			}
+			else if (color == sf::Color(102, 179, 135, 255)) // Aquamarine
+			{
+				object = new Jumping();
+			}
+			else if (color == sf::Color(19, 135, 172, 255)) // Blue
+			{
+				object = new Shield();
 			}
 			else if (color == sf::Color(87, 0, 134, 255)) // Purple
 			{

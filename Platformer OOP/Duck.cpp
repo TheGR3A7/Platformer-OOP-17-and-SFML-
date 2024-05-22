@@ -41,12 +41,8 @@ void Duck::Update(float deltaTime)
 {
 	if (isDead)
 	{
-		destroyTimer += deltaTime;
-		if (destroyTimer >= 1.0f)
-		{
-			Physics::world->DestroyBody(body); // пофиксилось удаление
-			DeleteObject(this);
-		}
+		Physics::world->DestroyBody(body); // пофиксилось удаление
+		DeleteObject(this);
 		return;
 	}
 

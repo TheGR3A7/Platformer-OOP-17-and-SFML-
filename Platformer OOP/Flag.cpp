@@ -3,6 +3,7 @@
 #include "Physics.h"
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
+#include "Game.h"
 
 void Flag::Begin()
 {
@@ -58,4 +59,10 @@ void Flag::Render(Renderer& ren)
 void Flag::OnContact(b2Fixture* self, b2Fixture* other)
 {
 	// добавить переход
+}
+
+void Flag::OnEndContact(b2Fixture* self, b2Fixture* other)
+{
+	if (player.GetGroundFixture() == self)
+		player.DecreaseGrounded();
 }

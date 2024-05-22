@@ -12,7 +12,6 @@ private:
 	Animation animation;
 	b2Body* body;
 
-	float destroyTimer = 0.0f;
 	bool isCollected = false;
 public:
 	~Coin();

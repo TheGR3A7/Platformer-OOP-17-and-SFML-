@@ -15,7 +15,6 @@ private:
 	sf::Sound jumpSound;
 	sf::Sound coinSound;
 
-
 	b2Body* body;
 	b2Fixture* groundFixture;
 	FixtureData fixtureData;
@@ -24,9 +23,11 @@ private:
 	size_t isGrounded; // bool плохо работал
 	size_t coins;
 public:
+	float immortalityTimer = 0.0f;
 	sf::Vector2f position;
 	float angle;
 	bool isDead;
+	int hasShield = 0;
 
 	size_t GetCoins();
 	
@@ -36,10 +37,12 @@ public:
 
 	void IncreaseCoins();
 	void IncreaseGrounded();
+	void DecreaseGrounded();
 	void PlayCoinSound();
 	b2Body* GetBody();
 	b2Fixture* GetGroundFixture();
-
+	float GetJumpVelocity();
+	void SetJumpVelocity(float jump);
 
 	// Унаследовано через ContactListener
 	virtual void OnBeginContact(b2Fixture* self, b2Fixture* other) override;

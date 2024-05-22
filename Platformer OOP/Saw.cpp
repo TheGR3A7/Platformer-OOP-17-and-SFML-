@@ -66,6 +66,12 @@ void Saw::Render(Renderer& ren)
 
 void Saw::OnContact(b2Fixture* self, b2Fixture* other)
 {
-	player.isDead = true;
+	if (player.hasShield != 1 && player.immortalityTimer <= 0.0f)
+		player.isDead = true;
+	if (player.hasShield == 1)
+	{
+		player.hasShield += 1;
+		player.immortalityTimer = 2.0f;
+	}
 }
 

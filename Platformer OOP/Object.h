@@ -15,5 +15,6 @@ public:
 	virtual void Update(float deltaTime) {}
 	virtual void Render(Renderer& ren) {}
 	virtual void OnContact(b2Fixture* self, b2Fixture* other) {}
+	virtual void OnEndContact(b2Fixture* self, b2Fixture* other) {}
 };
 

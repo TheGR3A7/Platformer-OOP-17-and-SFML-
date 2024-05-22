@@ -115,12 +115,12 @@ void Render(Renderer& ren)
 
 	gameMap.Draw(ren);
 
+	player.Draw(ren);
 	for (auto& object : objects)
 	{
 		object->Render(ren);
 	}
 
-	player.Draw(ren);
 
 	Physics::DebugDraw(ren);
 }
@@ -146,6 +146,7 @@ void RenderUI(Renderer& ren)
 		ren.target.draw(pauseImage);
 	}
 }
+
 
 void DeleteObject(Object* object)
 {

@@ -16,11 +16,15 @@
 #include "Spike.h"
 #include "Saw.h"
 #include "Flag.h"
+#include "Jumping.h"
+#include "Shield.h"
+#include "Marble.h"
+#include "Sand.h"
 
 using namespace std;
 
 const float movementSpeed = 7.0f;
-const float jumpVelocity = 10.0f;
+float jumpVelocity = 15.0f;
 
 void Character::Begin()
 {
@@ -97,6 +101,11 @@ void Character::Update(float deltaTime)
 		jumpSound.play();
 	}
 
+	if (immortalityTimer > 0.0f)
+	{
+		immortalityTimer -= deltaTime; 
+	}
+
 	textureToDraw = runAnimation.GetTexture();
 
 	if (velocity.x < -0.02f)
@@ -133,6 +142,11 @@ void Character::IncreaseGrounded()
 	isGrounded++;
 }
 
+void Character::DecreaseGrounded()
+{
+	isGrounded--;
+}
+
 void Character::PlayCoinSound()
 {
 	coinSound.play();
@@ -148,6 +162,17 @@ b2Fixture* Character::GetGroundFixture()
 	return 	groundFixture;
 }
 
+float Character::GetJumpVelocity()
+{
+	return jumpVelocity;
+}
+
+void Character::SetJumpVelocity(float jump)
+{
+	jumpVelocity = jump;
+}
+
+
 void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 {
 	FixtureData* data = (FixtureData*)other->GetUserData().pointer;
@@ -155,9 +180,9 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 	if (!data)
 		return;
 
-	if(groundFixture == self && data->type == FixtureDataType::MapTile) // +
+	if (groundFixture == self && data->type == FixtureDataType::MapTile) // +
 		isGrounded++;
-	if (data->type == FixtureDataType::Object && data->object->tag == "platform") // +
+	if (groundFixture == self && data->type == FixtureDataType::Object && data->object->tag == "platform") // +
 	{
 		MovingPlatform* platform = dynamic_cast<MovingPlatform*>(data->object);
 		if (!platform)
@@ -165,13 +190,29 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 		else
 			platform->OnContact(self, other);
 	}
-	else if (data->type == FixtureDataType::Object && data->object->tag == "coin") // 
+	else if (data->type == FixtureDataType::Object && data->object->tag == "coin") // +
 	{
 		Coin* coin = dynamic_cast<Coin*>(data->object);
 		if (!coin)
 			return;
 		else
 			coin->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "jumping") // +
+	{
+		Jumping* jumping = dynamic_cast<Jumping*>(data->object);
+		if (!jumping)
+			return;
+		else
+			jumping->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "shield") // +
+	{
+		Shield* shield = dynamic_cast<Shield*>(data->object);
+		if (!shield)
+			return;
+		else
+			shield->OnContact(self, other);
 	}
 	else if (data->type == FixtureDataType::Object && data->object->tag == "spike") // +
 	{
@@ -221,6 +262,22 @@ void Character::OnBeginContact(b2Fixture* self, b2Fixture* other)
 		else
 			flag->OnContact(self, other);
 	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "marble") // +
+	{
+		Marble* marble = dynamic_cast<Marble*>(data->object);
+		if (!marble)
+			return;
+		else
+			marble->OnContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "sand") // +
+	{
+		Sand* sand = dynamic_cast<Sand*>(data->object);
+		if (!sand)
+			return;
+		else
+			sand->OnContact(self, other);
+	}
 }
 
 void Character::OnEndContact(b2Fixture* self, b2Fixture* other)
@@ -231,11 +288,39 @@ void Character::OnEndContact(b2Fixture* self, b2Fixture* other)
 		return;
 
 	if (groundFixture == self && data->type == FixtureDataType::MapTile && isGrounded > 0)
-		isGrounded--;
-	else if (data->type == FixtureDataType::Object && data->object->tag == "platform")
-		isGrounded--;
-	else if (data->type == FixtureDataType::Object && data->object->tag == "button")
-		isGrounded--;
+		DecreaseGrounded();
+	else if (groundFixture == self && data->type == FixtureDataType::Object && data->object->tag == "platform")
+	{
+		MovingPlatform* platform = dynamic_cast<MovingPlatform*>(data->object);
+		if (!platform)
+			return;
+		else
+			platform->OnEndContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "flag")
+	{
+		Flag* flag = dynamic_cast<Flag*>(data->object);
+		if (!flag)
+			return;
+		else
+			flag->OnEndContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "marble")
+	{
+		Marble* marble = dynamic_cast<Marble*>(data->object);
+		if (!marble)
+			return;
+		else
+			marble->OnEndContact(self, other);
+	}
+	else if (data->type == FixtureDataType::Object && data->object->tag == "sand")
+	{
+		Sand* sand = dynamic_cast<Sand*>(data->object);
+		if (!sand)
+			return;
+		else
+			sand->OnEndContact(self, other);
+	}
 }
 
 size_t Character::GetCoins()

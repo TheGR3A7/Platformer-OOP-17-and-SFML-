@@ -50,12 +50,8 @@ void Hedgehog::Update(float deltaTime)
 {
     if (isDead)
     {
-        destroyTimer += deltaTime;
-        if (destroyTimer >= 1.0f)
-        {
-            Physics::world->DestroyBody(body);
-            DeleteObject(this);
-        }
+        Physics::world->DestroyBody(body);
+        DeleteObject(this);
         return;
     }
 
@@ -132,7 +128,15 @@ void Hedgehog::OnContact(b2Fixture* self, b2Fixture* other)
     if (IsSleeping() == true)
     	Die();
     else if (!IsDead())
-    	player.isDead = true;
+    {
+        if (player.hasShield != 1 && player.immortalityTimer <= 0.0f)
+            player.isDead = true;
+        if (player.GetGroundFixture() != self && player.hasShield == 1)
+        {
+            player.hasShield += 1;
+            player.immortalityTimer = 2.0f;
+        }
+    }
 }
 
 void Hedgehog::Sleep()

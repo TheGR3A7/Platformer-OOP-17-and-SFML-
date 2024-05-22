@@ -136,7 +136,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Flag.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -145,13 +144,17 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Hedgehog.cpp" />
+    <ClCompile Include="Jumping.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Marble.cpp" />
     <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Sand.cpp" />
     <ClCompile Include="Saw.cpp" />
+    <ClCompile Include="Shield.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Spike.cpp" />
@@ -159,7 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Flag.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
@@ -168,13 +170,17 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Hedgehog.h" />
+    <ClInclude Include="Jumping.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Marble.h" />
     <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Sand.h" />
     <ClInclude Include="Saw.h" />
+    <ClInclude Include="Shield.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="Spike.h" />
     <ClInclude Include="Standard Values.h" />

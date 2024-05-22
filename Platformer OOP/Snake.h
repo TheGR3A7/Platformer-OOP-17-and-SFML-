@@ -10,11 +10,11 @@ private:
 	float movement = 5.0f;
 	bool dirLeft = false;
 
-	float destroyTimer = 0.0f;
 	bool isDead = false;
 
 	FixtureData fixtureData;
 	b2Body* body;
+
 public:
 	virtual void Begin() override;
 	virtual void Update(float deltaTime) override;
@@ -22,6 +22,5 @@ public:
 
 	virtual void Die() override;
 	virtual bool IsDead() override;
-
 };
 

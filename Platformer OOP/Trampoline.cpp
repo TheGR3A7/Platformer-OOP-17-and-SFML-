@@ -75,7 +75,7 @@ void Trampoline::OnContact(b2Fixture* self, b2Fixture* other)
 	{
 		Activated();
 		b2Vec2 jumpVelocity = player.GetBody()->GetLinearVelocity();
-		jumpVelocity.y = -17.0f;
+		jumpVelocity.y = -25.0f;
 		player.GetBody()->SetLinearVelocity(jumpVelocity);
 	}
 }
